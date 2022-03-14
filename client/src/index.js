@@ -8,18 +8,12 @@ import {
   gql
 } from "@apollo/client";
 
+import App from './App';
+
 const client = new ApolloClient({
   uri: 'http://localhost:5000/',
   cache: new InMemoryCache()
 });
-
-function App() {
-  return (
-    <div>
-      <h2>My first Apollo app 🚀</h2>
-    </div>
-  );
-}
 
 render(
   <ApolloProvider client={client}>
