@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Button, Form } from 'semantic-ui-react';
-import { gql, useMutation } from "@apollo/client"; 
+import { gql, useMutation } from "@apollo/client";
 
 import { useForm } from '../utils/hooks';
 import { FETCH_POSTS_QUERY } from '../utils/graphql';
@@ -33,18 +33,30 @@ const PostForm = () => {
     }
 
     return (
-        <Form onSubmit={onSubmit}>
-            <h2>Créer un post :</h2>
-            <Form.Field>
-                <Form.Input
-                    placeholder="Écrivez votre message ici.."
-                    name="body"
-                    onChange={onChange}
-                    value={values.body}
-                />
-                <Button type='submit' color="teal" >Valider</Button>
-            </Form.Field>
-        </Form>
+        <Fragment>
+            <Form onSubmit={onSubmit}>
+                <h2>Créer un post :</h2>
+                <Form.Field>
+                    <Form.Input
+                        placeholder="Écrivez votre message ici.."
+                        name="body"
+                        onChange={onChange}
+                        value={values.body}
+                        error={error}
+                    />
+                    <Button type='submit' color="teal" >Valider</Button>
+                </Form.Field>
+            </Form>
+            {
+                error && (
+                    <div className='ui error message' style={{marginBottom: 20}} >
+                        <ul className='list' >
+                            <li>{error.graphQLErrors[0].message}</li>
+                        </ul>
+                    </div>
+                )
+            }
+        </Fragment>
     )
 }
 
