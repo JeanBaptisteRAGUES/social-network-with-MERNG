@@ -32,25 +32,45 @@ module.exports = gql`
         token: String!
         createdAt: String!
     }
+    type Message{
+        text: String!
+        createdBy: String!
+    }
+    type DirectMessage{
+        id: ID!
+        content: String!
+        from: String!
+        to: String!
+        createdAt: String!
+    }
+    type Conversation{
+        id: ID!
+        user1: String!
+        user2: String!
+        lastMessageDate: String!
+        messages: [DirectMessage]!
+    }
     input RegisterInput{
         username: String!
         password: String!
         confirmPassword: String!
         email: String!
     }
-    type Message{
-        text: String!
-        createdBy: String!
-    }
-
     input MessageInput {
         text: String!
         username: String!
     }
+    input DirectMessageInput {
+        content: String!
+        from: String!
+        to: String! 
+    }
     type Query{
         getPosts: [Post]
         getPost(postId: ID!): Post
-        message(id: ID!): Message     
+        message(id: ID!): Message
+        getConversations(username: String!): [Conversation]
+        getConversation(conversationId: ID!): Conversation
     }
     type Mutation{
         register(registerInput: RegisterInput): User!
@@ -61,6 +81,10 @@ module.exports = gql`
         deleteComment(postId: ID!, commentId: ID!): Post!
         likePost(postId: ID!): Post!
         createMessage(messageInput: MessageInput): Message!
+        createDirectMessage(conversationId: ID!, directMessageInput: DirectMessageInput): Conversation!
+        deleteDirectMessage(conversationId: ID!, directMessageId: ID!): String!
+        createConversation(directMessageInput: DirectMessageInput): Conversation!
+        deleteConversation(conversationId: ID!): String!
     }
     type Subscription {
         messageCreated: Message

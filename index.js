@@ -21,14 +21,6 @@ const PORT = process.env.PORT || 5000;
     const app = express();
     const httpServer = createServer(app);
 
-    /*
-    const wsServer = new WebSocketServer({
-        server: httpServer,
-        path: '/graphql',
-    });
-    */
-
-    //const serverCleanup = useServer({ schema }, wsServer);
     const subscriptionServer = SubscriptionServer.create(
         { schema, execute, subscribe },
         { server: httpServer, path: '/graphql' }
