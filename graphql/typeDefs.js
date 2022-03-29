@@ -88,5 +88,6 @@ module.exports = gql`
     }
     type Subscription {
         messageCreated: Message
+        conversationUpdated: Conversation
     }
 `;

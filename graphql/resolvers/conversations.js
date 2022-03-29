@@ -1,7 +1,10 @@
 const { AuthenticationError } = require('apollo-server');
+const { PubSub } = require("graphql-subscriptions");
 
 const Conversation = require('../../models/Conversation');
 const checkAuth = require('../../util/check-auth');
+
+const pubsub = new PubSub();
 
 module.exports = {
     Query: {
@@ -48,20 +51,22 @@ module.exports = {
                 }]
             });
 
-            console.log(newConversation);
-
-            /*
-            const firstMessage = {
-                content,
-                from,
-                to,
-                createdAt: new Date().toISOString()
-            };
-            */
-
-            //newConversation.messages.unshift(firstMessage);
-
             const conversation = await newConversation.save();
+
+            pubsub.publish('CONVERSATION_UPDATED', {
+                conversationUpdated: {
+                    id: conversation.id,
+                    user1: from,
+                    user2: to,
+                    lastMessageDate: new Date().toISOString(),
+                    messages: [{
+                        content,
+                        from,
+                        to,
+                        createdAt: new Date().toISOString()
+                    }]
+                }
+            });
 
             return conversation;
         },
@@ -79,6 +84,11 @@ module.exports = {
             } catch (err) {
                 throw new Error(err);
             }
+        }
+    },
+    Subscription: {
+        conversationUpdated: {
+            subscribe: () => pubsub.asyncIterator('CONVERSATION_UPDATED')
         }
     }
 }

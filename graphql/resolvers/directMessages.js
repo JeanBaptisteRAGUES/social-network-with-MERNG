@@ -1,7 +1,10 @@
 const { UserInputError, AuthenticationError } = require('apollo-server');
+const { PubSub } = require("graphql-subscriptions");
 
 const Conversation = require('../../models/Conversation');
 const checkAuth = require('../../util/check-auth');
+
+const pubsub = new PubSub();
 
 module.exports = {
     Mutation: {
@@ -15,17 +18,28 @@ module.exports = {
                 });
             }
 
-            const conversation = await Conversation.findById(conversationId);
+            const newConversation = await Conversation.findById(conversationId);
 
-            if(conversation){
-                conversation.messages.unshift({
+            if(newConversation){
+                newConversation.messages.unshift({
                     content,
                     from,
                     to,
                     createdAt: new Date().toISOString()
                 })
-                conversation.lastMessageDate = new Date().toISOString();
-                await conversation.save();
+                newConversation.lastMessageDate = new Date().toISOString();
+                const conversation =  await newConversation.save();
+
+                pubsub.publish('CONVERSATION_UPDATED', {
+                    conversationUpdated: {
+                        id: conversation.id,
+                        user1: from,
+                        user2: to,
+                        lastMessageDate: new Date().toISOString(),
+                        messages: conversation.messages
+                    }
+                });
+
                 return conversation;
             }else throw new UserInputError('Conversation not found');
         },
@@ -47,6 +61,11 @@ module.exports = {
             } else {
                 throw new UserInputError('Conversation not found');
             }
+        }
+    },
+    Subscription: {
+        conversationUpdated: {
+            subscribe: () => pubsub.asyncIterator('CONVERSATION_UPDATED')
         }
     }
 }
