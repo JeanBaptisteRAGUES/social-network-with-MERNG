@@ -53,8 +53,8 @@ module.exports = {
 
             const conversation = await newConversation.save();
 
-            pubsub.publish('CONVERSATION_UPDATED', {
-                conversationUpdated: {
+            pubsub.publish('CONVERSATION_CREATED', {
+                conversationCreated: {
                     id: conversation.id,
                     user1: from,
                     user2: to,
@@ -87,8 +87,8 @@ module.exports = {
         }
     },
     Subscription: {
-        conversationUpdated: {
-            subscribe: () => pubsub.asyncIterator('CONVERSATION_UPDATED')
+        conversationCreated: {
+            subscribe: () => pubsub.asyncIterator('CONVERSATION_CREATED')
         }
     }
 }

@@ -3,10 +3,10 @@ import { gql, useMutation } from '@apollo/client';
 
 import { AuthContext } from '../context/auth';
 
-const Conversation = () => {
+const SingleConversation = () => {
   return (
-    <div>Conversation</div>
+    <div>SingleConversation</div>
   )
 }
 
-export default Conversation;
+export default SingleConversation;

@@ -9,11 +9,11 @@ import { setContext } from '@apollo/client/link/context';
 import App from './App';
 
 const httpLink = new HttpLink({
-  uri: 'http://localhost:5000/graphql/'
+  uri: 'http://localhost:5000/graphql'
 });
 
 const wsLink = new WebSocketLink({
-  uri: 'ws://localhost:5000/graphql/',
+  uri: 'ws://localhost:5000/graphql',
   options: {
     reconnect: true
   }

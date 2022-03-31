@@ -13,7 +13,8 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import SinglePost from './pages/SinglePost';
-import Conversation from './pages/Conversation';
+import Conversations from './pages/Conversations';
+import SingleConversation from './pages/SingleConversation';
 
 function App() {
   return (
@@ -26,7 +27,8 @@ function App() {
             <Route exact path="/login" element={<Login/>} />
             <Route exact path="/register" element={<Register/>} />
             <Route exact path="/posts/:postId" element={<SinglePost/>} />
-            <Route exact path="/conversations/:conversationId" element={<Conversation/>} />
+            <Route exact path="/conversations" element={<Conversations/>} />
+            <Route exact path="/single-conversation/:conversationId" element={<SingleConversation/>} />
           </Routes>
         </Container>
       </Router>

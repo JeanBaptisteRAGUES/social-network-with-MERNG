@@ -22,6 +22,13 @@ const MenuBar = () => {
         />
         <Menu.Menu position='right'>
             <Menu.Item
+                name='conversations'
+                active={activeItem === 'conversations'}
+                onClick={handleItemClick}
+                as={Link}
+                to="/conversations"
+            />
+            <Menu.Item
                 name='logout'
                 onClick={logout}
             />
