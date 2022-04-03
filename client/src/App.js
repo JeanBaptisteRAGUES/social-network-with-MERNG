@@ -15,6 +15,7 @@ import Register from './pages/Register';
 import SinglePost from './pages/SinglePost';
 import Conversations from './pages/Conversations';
 import SingleConversation from './pages/SingleConversation';
+import Profile from './pages/Profile';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
             <Route exact path="/posts/:postId" element={<SinglePost/>} />
             <Route exact path="/conversations" element={<Conversations/>} />
             <Route exact path="/single-conversation/:conversationId" element={<SingleConversation/>} />
+            <Route exact path="/profile/:username" element={<Profile/>} />
           </Routes>
         </Container>
       </Router>

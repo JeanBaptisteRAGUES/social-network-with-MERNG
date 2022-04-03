@@ -22,8 +22,8 @@ const MenuBar = () => {
         />
         <Menu.Menu position='right'>
             <Menu.Item
-                name='conversations'
-                active={activeItem === 'conversations'}
+                name='messages'
+                active={activeItem === 'messages'}
                 onClick={handleItemClick}
                 as={Link}
                 to="/conversations"

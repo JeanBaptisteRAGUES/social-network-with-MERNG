@@ -66,8 +66,10 @@ module.exports = gql`
         to: String! 
     }
     type Query{
+        getUserInfos(username: String!): User
         getPosts: [Post]
         getPost(postId: ID!): Post
+        getPostsFrom(username: String!): [Post]
         message(id: ID!): Message
         getConversations(username: String!): [Conversation]
         getConversation(conversationId: ID!): Conversation

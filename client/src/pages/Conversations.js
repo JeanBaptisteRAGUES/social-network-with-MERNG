@@ -39,6 +39,7 @@ const LISTEN_CONVERSATIONS_UPDATES = gql`
 `;
 
 const Conversations = () => {
+  const { user } = AuthContext;
   const [conversations, setConversations] = useState([]);
   const { dataCreation, loadingCreation } = useSubscription(
     LISTEN_NEW_CONVERSATIONS,

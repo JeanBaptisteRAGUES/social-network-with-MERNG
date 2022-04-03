@@ -15,6 +15,20 @@ function generateToken(user){
 }
 
 module.exports = {
+    Query: {
+        async getUserInfos(_, {username}){
+            const user = await User.findOne({username});
+
+            if(!user){
+                throw new UserInputError('User not found');
+            }
+
+            return {
+                ...user._doc,
+                id: user._id
+            };
+        }
+    },
     Mutation: {
         async login(_, {username, password}){
             const {errors, valid} = validateLoginInput(username, password);

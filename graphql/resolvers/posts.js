@@ -24,6 +24,16 @@ module.exports = {
             } catch (err) {
                 throw new Error('Erreur récupération du post : ' + err);
             }
+        },
+        async getPostsFrom(_, { username } ){
+            try{
+                let posts = await Post.find().sort({ createdAt: -1 });
+                posts = posts.filter((post) => post.username === username);
+                
+                return posts;
+            } catch(err) {
+                throw new Error(err);
+            }
         }
     },
     Mutation: {

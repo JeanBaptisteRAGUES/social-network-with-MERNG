@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { gql, useMutation } from '@apollo/client';
+
+import { AuthContext } from '../context/auth';
 
 /*
 const CREATE_MESSAGE = gql`
@@ -30,27 +32,57 @@ const CREATE_CONVERSATION = gql`
 `;
 
 const ConversationForm = () => {
+    const { user } = useContext(AuthContext);
+    const [recipient, setRecipient] = useState('');
+    const [content, setContent] = useState('');
+
     const [createConversation, { data, loading, error }] = useMutation(CREATE_CONVERSATION, {
         variables: {
             directMessageInput: {
-                "content": "Test de conversation crée depuis le client",
-                "from": "user",
-                "to": "user9999"
+                "content": content,
+                "from": user.username,
+                "to": recipient
             }
         },
     });
 
-    const createTemplateConversation = () => {
+    const createTemplateConversation = (e) => {
+        e.preventDefault();
         createConversation();
-        console.log(data);
+        setRecipient('');
+        setContent('');
+        console.count('Conversation(s) créée(s) : ');
     }
 
     if(error) console.log(error);
 
     return (
-        <div>
-            <button onClick={() => createTemplateConversation()} >Ajouter une conversation</button>
-        </div>
+        <form onSubmit={(e) => createTemplateConversation(e)} >
+            <div>
+                <label htmlFor='recipient' >Destinataire : </label>
+                <input 
+                    id='recipient' 
+                    name='recipient' 
+                    type='text' 
+                    placeholder='' 
+                    value={recipient}
+                    onChange={(e) => setRecipient(e.target.value)} >
+                </input>
+            </div>
+            <div>
+                <label htmlFor='content' >Message :</label><br/>
+                <textarea 
+                    id='content' 
+                    name='content' 
+                    rows='5' 
+                    cols='35' 
+                    placeholder='Votre message ici..' 
+                    value={content}
+                    onChange={(e) => setContent(e.target.value)} > 
+                </textarea>
+            </div>
+            <button>Ajouter une conversation</button>
+        </form>
     )
 }
 

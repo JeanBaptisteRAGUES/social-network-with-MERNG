@@ -1,0 +1,134 @@
+import React, { useContext, useState } from 'react';
+import { gql, useMutation, useQuery, useSubscription } from '@apollo/client';
+import { Link, useParams } from 'react-router-dom';
+import { Grid, Transition } from 'semantic-ui-react';
+import { Button, Card, Icon, Label, Image, Popup } from 'semantic-ui-react';
+
+import { AuthContext } from '../context/auth';
+import PostCard from '../components/PostCard';
+import moment from 'moment';
+
+const GET_POSTS_USER = gql`
+    query GetPostsFrom($username: String!){
+        getPostsFrom(username: $username){
+            id
+            body
+            username
+            createdAt
+            comments {
+                id
+                username
+                body
+                createdAt
+            }
+            likes {
+                id
+                username
+                createdAt
+            }
+            likeCount
+            commentCount
+        }
+    }
+`;
+
+const GET_USER_INFOS = gql`
+    query GetUserInfos($username: String!){
+        getUserInfos(username: $username) {
+            id
+            username
+            email
+            createdAt
+        }
+    }
+`;
+
+const Profile = () => {
+    const { username } = useParams();
+    const { user: me } = useContext(AuthContext);
+    const [postsUser, setPostsUser] = useState([]);
+    const [user, setUser] = useState(null);
+    const { loading: loadingPosts   , data: userPosts } = useQuery(GET_POSTS_USER, {
+        variables: {
+            username: username
+        }
+    });
+    const { loading: loadingInfos   , data: userInfos } = useQuery(GET_USER_INFOS, { variables: { username } });
+
+    if(userPosts && postsUser.length === 0){
+        setPostsUser(userPosts.getPostsFrom);
+    }
+
+    if(userInfos && user === null){
+        setUser(userInfos.getUserInfos);
+    }
+
+    console.log(me);
+
+    return (
+        user ? (
+            <Grid columns={3}>
+                <Grid.Row centered >
+                    <Grid.Column width={10}>
+                        <Card fluid>
+                            <Card.Content>
+                                <Image
+                                floated='left'
+                                size='mini'
+                                src='https://react.semantic-ui.com/images/avatar/large/molly.png'
+                                />
+                                <Card.Header as={Link} to={`/profile/${username}`} >{username}</Card.Header>
+                                <Card.Meta as={Link} to={`/profile/${username}`} >Inscrit(e) depuis : {moment(user.createdAt).fromNow(true)}</Card.Meta>
+                            </Card.Content>
+                            <Card.Content textAlign='center' extra>
+                                {
+                                    (me && me.username !== username) ? (
+                                        <Popup content="Discuter" inverted trigger={
+                                            <Button labelPosition='right' as={Link} to={`/user/${username}`} >
+                                                <Button icon color='blue' basic>
+                                                    <Icon name='comments' />
+                                                </Button>
+                                                <Label basic color='blue' pointing='left'>
+                                                    Discuter
+                                                </Label>
+                                            </Button>
+                                        } 
+                                        />
+                                    )
+                                    :
+                                    null
+                                }
+                            </Card.Content>
+                        </Card>
+                    </Grid.Column>
+                </Grid.Row>
+                <Grid.Row centered >
+                    <Grid.Column>
+                        {loadingPosts ? (
+                            <h1>Chargement des posts ...</h1>
+                            ) : (
+                            <Transition.Group>
+                                {
+                                postsUser && postsUser.map(post => (
+                                    <Grid.Row key={post.id} style={{ marginBottom: 20 }} >
+                                        <PostCard post={post}/>
+                                    </Grid.Row>
+                                ))
+                                }
+                            </Transition.Group>
+                            )
+                        }
+                    </Grid.Column>
+                </Grid.Row>
+            </Grid>
+        )
+        :
+        (
+            <div>
+                <h1>Chargement des données..</h1>
+            </div>
+        )
+  )
+}
+
+export default Profile;
