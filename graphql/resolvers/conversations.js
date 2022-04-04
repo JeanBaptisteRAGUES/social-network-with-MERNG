@@ -29,6 +29,16 @@ module.exports = {
             } catch (err) {
                 throw new Error('Erreur récupération de la conversation : ' + err);
             }
+        },
+        async getConversationBetween(_, { username1, username2 }){
+            try{
+                const conversations = await Conversation.find();
+                const conversationBetween = conversations.find(conv => ( (conv.user1 === username1 || conv.user1 === username2) && (conv.user2 === username1 || conv.user2 === username2)));
+
+                return conversationBetween;
+            } catch (err) {
+                throw new Error(err);
+            }
         }
     },
     Mutation: {

@@ -73,6 +73,7 @@ module.exports = gql`
         message(id: ID!): Message
         getConversations(username: String!): [Conversation]
         getConversation(conversationId: ID!): Conversation
+        getConversationBetween(username1: String!, username2: String!): Conversation
     }
     type Mutation{
         register(registerInput: RegisterInput): User!
@@ -91,6 +92,8 @@ module.exports = gql`
     type Subscription {
         messageCreated: Message
         conversationCreated: Conversation
-        conversationUpdated: Conversation
+        conversationUpdated(conversationId: ID!): Conversation
     }
 `;
+
+//TODO: conversationUpdated / conversationsUpdated ?

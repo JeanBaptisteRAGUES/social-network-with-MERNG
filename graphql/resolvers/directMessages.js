@@ -1,5 +1,5 @@
 const { UserInputError, AuthenticationError } = require('apollo-server');
-const { PubSub } = require("graphql-subscriptions");
+const { PubSub, withFilter } = require("graphql-subscriptions");
 
 const Conversation = require('../../models/Conversation');
 const checkAuth = require('../../util/check-auth');
@@ -65,7 +65,17 @@ module.exports = {
     },
     Subscription: {
         conversationUpdated: {
-            subscribe: () => pubsub.asyncIterator('CONVERSATION_UPDATED')
+            //subscribe: () => pubsub.asyncIterator('CONVERSATION_UPDATED')
+            subscribe: withFilter(
+                () => pubsub.asyncIterator('CONVERSATION_UPDATED'),
+                (payload, variables) => {
+                    if(variables.conversationId !== ""){
+                        return (payload.conversationUpdated.id === variables.conversationId);
+                    }else{
+                        return true;
+                    }
+                }
+            )
         }
     }
 }

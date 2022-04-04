@@ -43,17 +43,41 @@ const GET_USER_INFOS = gql`
     }
 `;
 
+const GET_CONVERSATION_BETWEEN =gql`
+  query GetConversationBetween($username1: String!, $username2: String!){
+    getConversationBetween(username1: $username1, username2: $username2){
+      id
+      user1
+      user2
+      lastMessageDate
+      messages {
+        from
+        to
+        content
+        createdAt
+      }
+    }
+  }
+`;
+
 const Profile = () => {
     const { username } = useParams();
     const { user: me } = useContext(AuthContext);
     const [postsUser, setPostsUser] = useState([]);
     const [user, setUser] = useState(null);
+    const [conversationId, setConversationId] = useState("");
     const { loading: loadingPosts   , data: userPosts } = useQuery(GET_POSTS_USER, {
         variables: {
             username: username
         }
     });
     const { loading: loadingInfos   , data: userInfos } = useQuery(GET_USER_INFOS, { variables: { username } });
+    const { loading: loadingConversation, data: dataConversation } = useQuery(GET_CONVERSATION_BETWEEN, {
+        variables:{
+          username1: username,
+          username2: me ? me.username : ""
+        }
+    });
 
     if(userPosts && postsUser.length === 0){
         setPostsUser(userPosts.getPostsFrom);
@@ -61,6 +85,12 @@ const Profile = () => {
 
     if(userInfos && user === null){
         setUser(userInfos.getUserInfos);
+    }
+
+    //Si une conversation entre les deux utilisateurs a déjà été enregistrée, on récupère son id
+    if(conversationId === '' && dataConversation && dataConversation.getConversationBetween !== null){
+        console.log(dataConversation.getConversationBetween.id);
+        setConversationId(dataConversation.getConversationBetween.id);
     }
 
     console.log(me);
@@ -84,7 +114,7 @@ const Profile = () => {
                                 {
                                     (me && me.username !== username) ? (
                                         <Popup content="Discuter" inverted trigger={
-                                            <Button labelPosition='right' as={Link} to={`/user/${username}`} >
+                                            <Button labelPosition='right' as={Link} to={`/single-conversation/${conversationId}`} >
                                                 <Button icon color='blue' basic>
                                                     <Icon name='comments' />
                                                 </Button>
