@@ -6,13 +6,12 @@ import { Link } from 'react-router-dom';
 
 import { AuthContext } from '../context/auth';
 
-const MessageCard = ({ message: { id, from, to, createdAt, content } }) => {
+const MessageCard = ({ message: { id, from, to, createdAt, content }, fromUser }) => {
     moment.locale('fr');
     const { user } = useContext(AuthContext);
-    const fromUser = from === user.username;
 
     return (
-        <Card fluid as={Link} to={`/single-conversation/${id}`} color='blue' >
+        <Card fluid as={Link} to={`/single-conversation/${id}`} style={ fromUser ? {backgroundColor: 'rgb(150,200,255)'} : {backgroundColor: 'rgb(240,240,240)'}} >
             <Card.Content>
                 {
                     !fromUser ? (
@@ -28,7 +27,7 @@ const MessageCard = ({ message: { id, from, to, createdAt, content } }) => {
                 <Card.Meta>
                     {moment(createdAt).fromNow(true)}
                 </Card.Meta>
-                <Card.Description >
+                <Card.Description style={{ wordWrap: 'break-word' }} >
                     {content}
                 </Card.Description>
             </Card.Content>
