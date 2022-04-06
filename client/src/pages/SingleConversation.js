@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { gql, useMutation, useQuery, useSubscription } from '@apollo/client';
 
 import { AuthContext } from '../context/auth';
@@ -41,6 +41,23 @@ const GET_CONVERSATION = gql`
   }
 `;
 
+const CREATE_CONVERSATION = gql`
+  mutation CreateConversation($directMessageInput: DirectMessageInput){
+    createConversation(directMessageInput: $directMessageInput) {
+      id
+      user1
+      user2
+      lastMessageDate
+      messages {
+        content
+        from
+        to
+        createdAt
+      }
+    }
+  }
+`;
+
 const CREATE_DIRECT_MESSAGE = gql`
   mutation CreateDirectMessage($conversationId: ID!, $directMessageInput: DirectMessageInput!){
     createDirectMessage(conversationId: $conversationId, directMessageInput: $directMessageInput){
@@ -59,15 +76,27 @@ const CREATE_DIRECT_MESSAGE = gql`
   }
 `;
 
-const SingleConversation = () => {
+console.log('test');
+
+const SingleConversation = (props) => {
   const { conversationId } = useParams();
+  const { state: {recipient} } = useLocation();
+  const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   const [messages, setMessages] = useState([]);
   const [messageContent, setMessageContent] = useState('');
-  const [recipient, setRecipient] = useState('');
   const [createDirectMessage, {error}] = useMutation(CREATE_DIRECT_MESSAGE, {
     variables:{
       conversationId: conversationId,
+      directMessageInput: {
+        content: messageContent,
+        from: user.username,
+        to: recipient
+      }
+    }
+  });
+  const [createConversation, {data: dataCreation, error: errorCreation}] = useMutation(CREATE_CONVERSATION, {
+    variables:{
       directMessageInput: {
         content: messageContent,
         from: user.username,
@@ -94,21 +123,25 @@ const SingleConversation = () => {
     }
   );
 
-  if(messages.length === 0 && !loadingConversation){
-    console.log(loadingConversation);
+  if( conversationId !== 'new' && messages.length === 0 && dataConversation){
+    console.log("loadingConversation");
     console.log(dataConversation.getConversation);
     setMessages(dataConversation.getConversation.messages);
-    setRecipient([dataConversation.getConversation.user1, dataConversation.getConversation.user2].find(u => u !== user.username));
+    setMessageContent('');
   }
 
   const sendDirectMessage = (e) => {
     e.preventDefault();
-    if(conversationId !== null){
-      createDirectMessage();
+    if(conversationId === 'new'){
+      createConversation().then(res => {
+        console.log(res);
+        const newConversation = res.data.createConversation;
+        navigate(`/single-conversation/${newConversation.id}`, { state: {recipient: recipient} });
+      })
     }else{
-      //TODO: createConversation();
+      createDirectMessage();
+      setMessageContent('');
     }
-    setMessageContent('');
   }
 
 
@@ -127,7 +160,7 @@ const SingleConversation = () => {
               )
             })
           : 
-          "Chargement.." 
+          <p style={{alignSelf: 'center'}} >Aucun message pour l'instant</p>
         }
       </div>
       <Form onSubmit={(e) => sendDirectMessage(e)} style={{ width: '100%', height: '35px',  display: 'flex', flexDirection: 'row'}} >

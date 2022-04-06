@@ -88,12 +88,15 @@ const Profile = () => {
     }
 
     //Si une conversation entre les deux utilisateurs a déjà été enregistrée, on récupère son id
-    if(conversationId === '' && dataConversation && dataConversation.getConversationBetween !== null){
-        console.log(dataConversation.getConversationBetween.id);
-        setConversationId(dataConversation.getConversationBetween.id);
+    if(conversationId === '' && dataConversation){
+        console.log(dataConversation);
+        let newConversationId = 'new';
+        if(dataConversation.getConversationBetween !== null && dataConversation.getConversationBetween !== undefined){
+            newConversationId = dataConversation.getConversationBetween.id;
+        }
+        console.log(newConversationId);
+        setConversationId(newConversationId);
     }
-
-    console.log(me);
 
     return (
         user ? (
@@ -114,7 +117,7 @@ const Profile = () => {
                                 {
                                     (me && me.username !== username) ? (
                                         <Popup content="Discuter" inverted trigger={
-                                            <Button labelPosition='right' as={Link} to={`/single-conversation/${conversationId}`} >
+                                            <Button labelPosition='right' as={Link} to={`/single-conversation/${conversationId}`} state={{recipient: username}} >
                                                 <Button icon color='blue' basic>
                                                     <Icon name='comments' />
                                                 </Button>

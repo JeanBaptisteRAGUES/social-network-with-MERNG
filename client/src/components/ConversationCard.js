@@ -12,7 +12,7 @@ const ConversationCard = ({ conversation: { id, user1, user2, lastMessageDate, m
     const recipient = [user1, user2].find(u => u !== user.username);
 
     return (
-        <Card fluid as={Link} to={`/single-conversation/${id}`} >
+        <Card fluid as={Link} to={`/single-conversation/${id}`} state={{recipient: recipient}} >
             <Card.Content>
                 <Image
                     floated='left'

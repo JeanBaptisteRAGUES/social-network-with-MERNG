@@ -97,22 +97,6 @@ const Conversations = () => {
     setConversations(dataConversations.getConversations);
   }
 
-  const conversationsList = conversations.length > 0 && (
-    <div>
-      {
-        conversations.map((conversation) => (
-          <span key={conversation.id} >
-            <p>
-              Conversation ({`${conversation.user1} / ${conversation.user2}`}) : <br/>
-              {conversation.messages[0].from} ({conversation.lastMessageDate}) :<br/>
-              {conversation.messages[0].content}
-            </p>
-          </span>
-        ))
-      }
-    </div>
-  )
-
   return (
     <div>
       {
