@@ -11,8 +11,23 @@ const ConversationCard = ({ conversation: { id, user1, user2, lastMessageDate, m
     const { user } = useContext(AuthContext);
     const recipient = [user1, user2].find(u => u !== user.username);
 
+    const unreadColor = 'rgb(190,220,255)';
+    const readColor = 'rgb(220,220,220)';
+
+    const unreadMessages = messages.some(m => m.to === user.username && !m.seen);
+
+    messages.forEach(m => {
+        console.log(m);
+        console.log(m.to);
+        console.log(user.username);
+        console.log(m.seen);
+        console.log(m.to === user.username && !m.seen);
+    })
+
+    console.log(`id: ${id}, message(s) non lu(s) : ${unreadMessages}`);
+
     return (
-        <Card fluid as={Link} to={`/single-conversation/${id}`} state={{recipient: recipient}} >
+        <Card fluid as={Link} to={`/single-conversation/${id}`} state={{recipient: recipient}} style={ unreadMessages ? { backgroundColor: unreadColor } : { backgroundColor: readColor }} >
             <Card.Content>
                 <Image
                     floated='left'

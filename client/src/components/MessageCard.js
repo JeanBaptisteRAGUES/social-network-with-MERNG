@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 import { AuthContext } from '../context/auth';
 
-const MessageCard = ({ message: { id, from, to, createdAt, content }, fromUser }) => {
+const MessageCard = ({ message: { id, from, to, createdAt, content, seen }, fromUser }) => {
     moment.locale('fr');
     const { user } = useContext(AuthContext);
 
@@ -30,6 +30,15 @@ const MessageCard = ({ message: { id, from, to, createdAt, content }, fromUser }
                 <Card.Description style={{ wordWrap: 'break-word' }} >
                     {content}
                 </Card.Description>
+                {
+                    fromUser ? (
+                        <Card.Header>
+                            { seen ? 'Vu' : 'Envoyé' }
+                        </Card.Header>
+                    ) : (
+                        null
+                    )
+                }
             </Card.Content>
         </Card>
     )

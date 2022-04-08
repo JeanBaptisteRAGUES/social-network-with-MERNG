@@ -1,16 +1,22 @@
 import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Menu } from 'semantic-ui-react';
 
 import { AuthContext } from '../context/auth';
 
 const MenuBar = () => {
   const { user, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
   const pathname = window.location.pathname;
   const path = pathname === '/' ? 'home' : pathname.substring(1);
   const [activeItem, setActiveItem] = useState(path);
 
   const handleItemClick = (e, { name }) => setActiveItem(name);
+
+  const disconnect = () => {
+    logout();
+    navigate('/');
+  }
 
   const menuBar = user ? (
     <Menu pointing secondary size='massive' color='teal'>
@@ -30,7 +36,7 @@ const MenuBar = () => {
             />
             <Menu.Item
                 name='logout'
-                onClick={logout}
+                onClick={disconnect}
             />
         </Menu.Menu>
     </Menu>

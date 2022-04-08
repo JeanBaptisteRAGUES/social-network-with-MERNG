@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { gql, useMutation, useQuery, useSubscription } from '@apollo/client';
 
@@ -18,6 +18,7 @@ const LISTEN_CONVERSATIONS_UPDATES = gql`
         from
         to
         createdAt
+        seen
       }
     }
   }
@@ -36,6 +37,7 @@ const GET_CONVERSATION = gql`
         from
         to
         createdAt
+        seen
       }
     }
   }
@@ -53,6 +55,7 @@ const CREATE_CONVERSATION = gql`
         from
         to
         createdAt
+        seen
       }
     }
   }
@@ -71,6 +74,23 @@ const CREATE_DIRECT_MESSAGE = gql`
         from
         to
         createdAt
+        seen
+      }
+    }
+  }
+`;
+
+const SET_DM_AS_SEEN = gql`
+  mutation SetMessagesAsSeen($conversationId: ID!, $recipient: String!){
+    setMessagesAsSeen(conversationId: $conversationId, recipient: $recipient){
+      id
+      messages {
+        id
+        content
+        from
+        to
+        createdAt
+        seen
       }
     }
   }
@@ -104,6 +124,12 @@ const SingleConversation = (props) => {
       }
     }
   });
+  const [setMessagesAsSeen, {data: dataSeen, error: errorSeen}] = useMutation(SET_DM_AS_SEEN, {
+    variables:{
+      conversationId: conversationId,
+      recipient: recipient
+    }
+  });
   const { loading: loadingConversation, data: dataConversation } = useQuery(GET_CONVERSATION, {
     variables:{
       conversationId: conversationId
@@ -129,6 +155,17 @@ const SingleConversation = (props) => {
     setMessages(dataConversation.getConversation.messages);
     setMessageContent('');
   }
+
+  const checkUnreadMessages = () => {
+    return messages.some(m => m.to === user.username && !m.seen);
+  }
+
+  useEffect(() => {
+    if(checkUnreadMessages()){
+      const dmSeen = setMessagesAsSeen();
+      console.log(dmSeen);
+    }
+  }, [messages]);
 
   const sendDirectMessage = (e) => {
     e.preventDefault();

@@ -9,7 +9,8 @@ const conversationSchema = new Schema({
             content: String,
             from: String,
             to: String,
-            createdAt: String
+            createdAt: String,
+            seen: Boolean
         }
     ]
 });

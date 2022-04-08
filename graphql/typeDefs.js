@@ -42,6 +42,7 @@ module.exports = gql`
         from: String!
         to: String!
         createdAt: String!
+        seen: Boolean
     }
     type Conversation{
         id: ID!
@@ -85,6 +86,7 @@ module.exports = gql`
         likePost(postId: ID!): Post!
         createMessage(messageInput: MessageInput): Message!
         createDirectMessage(conversationId: ID!, directMessageInput: DirectMessageInput): Conversation!
+        setMessagesAsSeen(conversationId: ID!, recipient: String!): Conversation!
         deleteDirectMessage(conversationId: ID!, directMessageId: ID!): String!
         createConversation(directMessageInput: DirectMessageInput): Conversation!
         deleteConversation(conversationId: ID!): String!

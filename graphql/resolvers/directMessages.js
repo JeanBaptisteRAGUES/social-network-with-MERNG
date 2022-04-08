@@ -25,7 +25,8 @@ module.exports = {
                     content,
                     from,
                     to,
-                    createdAt: new Date().toISOString()
+                    createdAt: new Date().toISOString(),
+                    seen: false
                 })
                 newConversation.lastMessageDate = new Date().toISOString();
                 const conversation =  await newConversation.save();
@@ -36,6 +37,30 @@ module.exports = {
                         user1: from,
                         user2: to,
                         lastMessageDate: new Date().toISOString(),
+                        messages: conversation.messages
+                    }
+                });
+
+                return conversation;
+            }else throw new UserInputError('Conversation not found');
+        },
+        async setMessagesAsSeen(_, { conversationId, recipient }, context){
+            const { username } = checkAuth(context);
+
+            const newConversation = await Conversation.findById(conversationId);
+
+            if(newConversation){
+                newConversation.messages.forEach(dm => {
+                    if(dm.from === recipient) dm.seen = true;
+                });
+                const conversation =  await newConversation.save();
+
+                pubsub.publish('CONVERSATION_UPDATED', {
+                    conversationUpdated: {
+                        id: conversation.id,
+                        user1: conversation.user1,
+                        user2: conversation.user2,
+                        lastMessageDate: conversation.lastMessageDate,
                         messages: conversation.messages
                     }
                 });

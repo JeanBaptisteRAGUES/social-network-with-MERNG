@@ -57,7 +57,8 @@ module.exports = {
                     content,
                     from,
                     to,
-                    createdAt: new Date().toISOString()
+                    createdAt: new Date().toISOString(),
+                    seen: false
                 }]
             });
 
@@ -73,7 +74,8 @@ module.exports = {
                         content,
                         from,
                         to,
-                        createdAt: new Date().toISOString()
+                        createdAt: new Date().toISOString(),
+                        seen: false
                     }]
                 }
             });

@@ -20,6 +20,7 @@ const GET_CONVERSATIONS = gql`
         from
         to
         createdAt
+        seen
       }
     }
   }
@@ -37,6 +38,7 @@ const LISTEN_NEW_CONVERSATIONS = gql`
         from
         to
         createdAt
+        seen
       }
     }
   }
@@ -54,6 +56,7 @@ const LISTEN_CONVERSATIONS_UPDATES = gql`
         from
         to
         createdAt
+        seen
       }
     }
   }
@@ -94,6 +97,7 @@ const Conversations = () => {
   );
 
   if(conversations.length === 0 && dataConversations){
+    console.log(dataConversations.getConversations);
     setConversations(dataConversations.getConversations);
   }
 
