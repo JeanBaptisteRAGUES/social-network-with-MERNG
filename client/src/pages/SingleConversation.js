@@ -96,8 +96,6 @@ const SET_DM_AS_SEEN = gql`
   }
 `;
 
-console.log('test');
-
 const SingleConversation = (props) => {
   const { conversationId } = useParams();
   const { state: {recipient} } = useLocation();
@@ -139,7 +137,8 @@ const SingleConversation = (props) => {
     LISTEN_CONVERSATIONS_UPDATES,
     {
         variables:{
-          conversationId: conversationId
+          conversationId: conversationId,
+          username: ''
         },
         onSubscriptionData: (dataUpdate) => {
             const conversation = dataUpdate.subscriptionData.data.conversationUpdated;

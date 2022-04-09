@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { gql, useMutation, useQuery, useSubscription } from '@apollo/client';
 import { Link, useParams } from 'react-router-dom';
 import { Grid, Transition } from 'semantic-ui-react';
@@ -16,6 +16,7 @@ const GET_CONVERSATIONS = gql`
       user2
       lastMessageDate
       messages {
+        id
         content
         from
         to
@@ -34,6 +35,7 @@ const LISTEN_NEW_CONVERSATIONS = gql`
       user2
       lastMessageDate
       messages {
+        id
         content
         from
         to
@@ -52,6 +54,7 @@ const LISTEN_CONVERSATIONS_UPDATES = gql`
       user2
       lastMessageDate
       messages {
+        id
         content
         from
         to
@@ -65,10 +68,11 @@ const LISTEN_CONVERSATIONS_UPDATES = gql`
 const Conversations = () => {
   const { user } = useContext(AuthContext);
   const [conversations, setConversations] = useState([]);
-  const { loading: loadingConversations, data: dataConversations } = useQuery(GET_CONVERSATIONS, {
+  const { loading: loadingConversations, data: dataConversations, refetch } = useQuery(GET_CONVERSATIONS, {
     variables:{
       username: user.username
-    }
+    },
+    pollInterval: 500,
   })
   const { dataCreation, loadingCreation } = useSubscription(
     LISTEN_NEW_CONVERSATIONS,
@@ -82,12 +86,15 @@ const Conversations = () => {
         }
     }
   );
+  //TODO: conversationId écrit en dur..
   const { dataUpdate, loadingUpdate } = useSubscription(
     LISTEN_CONVERSATIONS_UPDATES,
     {
         variables:{
-          conversationId: "624a0c62ffaed435afd51ed9"
+          conversationId: "",
+          username: user.username
         },
+        fetchPolicy: 'network-only',
         onSubscriptionData: (dataUpdate) => {
             const conversation = dataUpdate.subscriptionData.data.conversationUpdated;
             console.count("Message(s) reçu(s) ");
@@ -96,9 +103,27 @@ const Conversations = () => {
     }
   );
 
+  useEffect(() => {
+    refetch()
+    .then((res) => {
+      //console.log('refetch !');
+      //console.log(res);
+      const newConversations = JSON.stringify(res.data.getConversations);
+      const oldConversations = JSON.stringify(conversations);
+      //console.log(newConversations === oldConversations);
+      if(newConversations !== oldConversations){
+        setConversations(res.data.getConversations);
+        //console.log('Update conversations !');
+      }
+    })
+  }, []);
+
   if(conversations.length === 0 && dataConversations){
-    console.log(dataConversations.getConversations);
-    setConversations(dataConversations.getConversations);
+    //console.log(user.username);
+    //console.log(dataConversations.getConversations);
+    if(dataConversations.getConversations.length > 0){
+      setConversations(dataConversations.getConversations);
+    }
   }
 
   return (

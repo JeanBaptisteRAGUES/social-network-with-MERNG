@@ -94,7 +94,7 @@ module.exports = gql`
     type Subscription {
         messageCreated: Message
         conversationCreated: Conversation
-        conversationUpdated(conversationId: ID!): Conversation
+        conversationUpdated(conversationId: ID, username: String): Conversation
     }
 `;
 

@@ -14,7 +14,6 @@ const Home = () => {
 
   if(data){
     posts = data.getPosts;
-    console.log(posts);
   }
 
   return (

@@ -16,6 +16,7 @@ const ConversationCard = ({ conversation: { id, user1, user2, lastMessageDate, m
 
     const unreadMessages = messages.some(m => m.to === user.username && !m.seen);
 
+    /*
     messages.forEach(m => {
         console.log(m);
         console.log(m.to);
@@ -23,8 +24,9 @@ const ConversationCard = ({ conversation: { id, user1, user2, lastMessageDate, m
         console.log(m.seen);
         console.log(m.to === user.username && !m.seen);
     })
+    */
 
-    console.log(`id: ${id}, message(s) non lu(s) : ${unreadMessages}`);
+    //console.log(`id: ${id}, message(s) non lu(s) : ${unreadMessages}`);
 
     return (
         <Card fluid as={Link} to={`/single-conversation/${id}`} state={{recipient: recipient}} style={ unreadMessages ? { backgroundColor: unreadColor } : { backgroundColor: readColor }} >

@@ -97,7 +97,11 @@ module.exports = {
                     if(variables.conversationId !== ""){
                         return (payload.conversationUpdated.id === variables.conversationId);
                     }else{
-                        return true;
+                        if(variables.username !== ""){
+                            return (payload.conversationUpdated.user1 === variables.username || payload.conversationUpdated.user2 === variables.username);
+                        }else{
+                            return true;
+                        }
                     }
                 }
             )
