@@ -47,19 +47,17 @@ const LISTEN_NEW_CONVERSATIONS = gql`
 `;
 
 const LISTEN_CONVERSATIONS_UPDATES = gql`
-  subscription ListenConversationsUpdates($conversationId: ID!){
-    conversationUpdated(conversationId: $conversationId) {
+  subscription ListenConversationsUpdates($conversationId: ID, $username: String){
+    conversationUpdated(conversationId: $conversationId, username: $username) {
       id
       user1
       user2
       lastMessageDate
       messages {
-        id
         content
         from
         to
         createdAt
-        seen
       }
     }
   }
@@ -71,8 +69,7 @@ const Conversations = () => {
   const { loading: loadingConversations, data: dataConversations, refetch } = useQuery(GET_CONVERSATIONS, {
     variables:{
       username: user.username
-    },
-    pollInterval: 500,
+    }
   })
   const { dataCreation, loadingCreation } = useSubscription(
     LISTEN_NEW_CONVERSATIONS,
@@ -96,9 +93,12 @@ const Conversations = () => {
         },
         fetchPolicy: 'network-only',
         onSubscriptionData: (dataUpdate) => {
-            const conversation = dataUpdate.subscriptionData.data.conversationUpdated;
-            console.count("Message(s) reçu(s) ");
-            setConversations([conversation, ...conversations]);
+          const conversation = dataUpdate.subscriptionData.data.conversationUpdated;
+          console.count("Message(s) reçu(s) ");
+          let newConversations = [...conversations];
+          newConversations = newConversations.filter(newC => newC.id !== conversation.id);
+          newConversations.unshift(conversation);
+          setConversations(newConversations);
         }
     }
   );
@@ -106,21 +106,17 @@ const Conversations = () => {
   useEffect(() => {
     refetch()
     .then((res) => {
-      //console.log('refetch !');
-      //console.log(res);
       const newConversations = JSON.stringify(res.data.getConversations);
       const oldConversations = JSON.stringify(conversations);
-      //console.log(newConversations === oldConversations);
       if(newConversations !== oldConversations){
         setConversations(res.data.getConversations);
         //console.log('Update conversations !');
       }
-    })
+    });
   }, []);
 
   if(conversations.length === 0 && dataConversations){
-    //console.log(user.username);
-    //console.log(dataConversations.getConversations);
+    //console.log('Get conversations !')
     if(dataConversations.getConversations.length > 0){
       setConversations(dataConversations.getConversations);
     }
@@ -138,11 +134,11 @@ const Conversations = () => {
                           ) : (
                           <Transition.Group>
                               {
-                              conversations.length > 0 && conversations.map(conv => (
-                                  <Grid.Row key={conv.id} style={{ marginBottom: 20 }} >
-                                      <ConversationCard conversation={conv} />
-                                  </Grid.Row>
-                              ))
+                                conversations.length > 0 && conversations.map(conv => (
+                                    <Grid.Row key={conv.id + conv.messages.length} style={{ marginBottom: 20 }} >
+                                        <ConversationCard conversation={conv} />
+                                    </Grid.Row>
+                                ))
                               }
                           </Transition.Group>
                           )
