@@ -131,7 +131,8 @@ const SingleConversation = (props) => {
   const { loading: loadingConversation, data: dataConversation } = useQuery(GET_CONVERSATION, {
     variables:{
       conversationId: conversationId
-    }
+    },
+    fetchPolicy: 'network-only'
   });
   const { dataUpdate, loadingUpdate } = useSubscription(
     LISTEN_CONVERSATIONS_UPDATES,

@@ -1,0 +1,41 @@
+.flexColLeft{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.flexColRight{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.flexRowCenter{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.messageContentUser{
+    padding: 10px 15px 10px 15px;
+    background-color: cornflowerblue;
+    color: white;
+    border-radius: 20px 20px 0px 20px;
+    font-size: medium;
+}
+
+.messageContentRecipient{
+    padding: 10px 15px 10px 15px;
+    background-color: whitesmoke;
+    color: black;
+    border-radius: 20px 20px 20px 0%;
+    font-size: medium;
+}
+
+.graySmallText{
+    color: gray;
+    font-size: small;
+}

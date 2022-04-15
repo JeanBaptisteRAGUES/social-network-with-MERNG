@@ -8,7 +8,6 @@ const directMessagesResolvers = require('./directMessages');
 module.exports = {
     Post: {
         likeCount(parent){
-            console.log(parent);
             return parent.likes.length;
         },
         commentCount: (parent) => parent.comments.length
