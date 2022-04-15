@@ -72,7 +72,7 @@ module.exports = gql`
         getPost(postId: ID!): Post
         getPostsFrom(username: String!): [Post]
         message(id: ID!): Message
-        getConversations(username: String!): [Conversation]
+        getConversations(username: String!, light: Boolean): [Conversation]
         getConversation(conversationId: ID!): Conversation
         getConversationBetween(username1: String!, username2: String!): Conversation
     }

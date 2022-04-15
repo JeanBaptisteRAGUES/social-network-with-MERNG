@@ -3,16 +3,18 @@ const { PubSub } = require("graphql-subscriptions");
 
 const Conversation = require('../../models/Conversation');
 const checkAuth = require('../../util/check-auth');
+const { makeConversationsLight } = require('../../util/resolvers-tools');
 
 const pubsub = new PubSub();
 
 module.exports = {
     Query: {
-        async getConversations(_, { username }, context){
+        async getConversations(_, { username, light }, context){
             const user = checkAuth(context);
             try{
                 let conversations = await Conversation.find().sort({ lastMessageDate: -1 });
                 conversations = conversations.filter(c => c.user1 === username || c.user2 === username);
+                if(light) conversations = makeConversationsLight(conversations);
                 return conversations;
             } catch(err) {
                 throw new Error(err);
@@ -30,11 +32,10 @@ module.exports = {
                 throw new Error('Erreur récupération de la conversation : ' + err);
             }
         },
-        async getConversationBetween(_, { username1, username2 }){
+        async getConversationBetween(_, { username1, username2}){
             try{
                 const conversations = await Conversation.find();
                 const conversationBetween = conversations.find(conv => ( (conv.user1 === username1 || conv.user1 === username2) && (conv.user2 === username1 || conv.user2 === username2)));
-
                 return conversationBetween;
             } catch (err) {
                 throw new Error(err);

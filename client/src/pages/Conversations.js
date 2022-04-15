@@ -9,8 +9,8 @@ import ConversationForm from '../components/ConversationForm';
 import ConversationCard from '../components/ConversationCard';
 
 const GET_CONVERSATIONS = gql`
-  query GetConversations($username: String!){
-    getConversations(username: $username){
+  query GetConversations($username: String!, $light: Boolean){
+    getConversations(username: $username, light: $light){
       id
       user1
       user2
@@ -68,7 +68,8 @@ const Conversations = () => {
   const [conversations, setConversations] = useState([]);
   const { loading: loadingConversations, data: dataConversations, refetch } = useQuery(GET_CONVERSATIONS, {
     variables:{
-      username: user.username
+      username: user.username,
+      light: true
     }
   })
   const { dataCreation, loadingCreation } = useSubscription(
@@ -134,8 +135,8 @@ const Conversations = () => {
                           ) : (
                           <Transition.Group>
                               {
-                                conversations.length > 0 && conversations.map(conv => (
-                                    <Grid.Row key={conv.id + conv.messages.length} style={{ marginBottom: 20 }} >
+                                conversations.length > 0 && conversations.map((conv, i) => (
+                                    <Grid.Row key={conv.id + i} style={{ marginBottom: 20 }} >
                                         <ConversationCard conversation={conv} />
                                     </Grid.Row>
                                 ))
