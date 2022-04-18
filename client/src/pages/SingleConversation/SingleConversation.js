@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { gql, useMutation, useQuery, useSubscription } from '@apollo/client';
-
-import { AuthContext } from '../context/auth';
-import MessageCard from '../components/MessageCard';
 import { Button, Form } from 'semantic-ui-react';
+
+import { AuthContext } from '../../context/auth';
+import MessageCard from '../../components/MessageCard';
 
 const LISTEN_CONVERSATIONS_UPDATES = gql`
   subscription ListenConversationsUpdates($conversationId: ID!){

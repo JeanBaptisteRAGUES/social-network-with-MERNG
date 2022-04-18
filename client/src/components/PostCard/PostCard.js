@@ -3,9 +3,9 @@ import { Button, Card, Icon, Label, Image, Popup } from 'semantic-ui-react';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 
-import { AuthContext } from '../context/auth';
-import LikeButton from './LikeButton';
-import DeleteButton from './DeleteButton';
+import { AuthContext } from '../../context/auth';
+import LikeButton from '../LikeButton';
+import DeleteButton from '../DeleteButton';
 
 const PostCard = ({post: {body, createdAt, id, username, likeCount, commentCount, likes}}) => {
     const { user } = useContext(AuthContext);

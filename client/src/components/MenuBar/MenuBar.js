@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Menu } from 'semantic-ui-react';
 
-import { AuthContext } from '../context/auth';
+import { AuthContext } from '../../context/auth';
 
 const MenuBar = () => {
   const { user, logout } = useContext(AuthContext);

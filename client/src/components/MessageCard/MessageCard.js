@@ -4,8 +4,8 @@ import moment from 'moment';
 import 'moment/locale/fr';
 import { Link } from 'react-router-dom';
 
-import { AuthContext } from '../context/auth';
-import './components.css';
+import { AuthContext } from '../../context/auth';
+import './message-card.css';
 
 const MessageCard = ({ message: { id, from, to, createdAt, content, seen }, fromUser }) => {
     moment.locale('fr');

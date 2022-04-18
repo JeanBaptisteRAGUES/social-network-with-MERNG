@@ -2,8 +2,8 @@ import React, { Fragment } from 'react';
 import { Button, Form } from 'semantic-ui-react';
 import { gql, useMutation } from "@apollo/client";
 
-import { useForm } from '../utils/hooks';
-import { FETCH_POSTS_QUERY } from '../utils/graphql';
+import { useForm } from '../../utils/hooks';
+import { FETCH_POSTS_QUERY } from '../../utils/graphql';
 
 const PostForm = () => {
 

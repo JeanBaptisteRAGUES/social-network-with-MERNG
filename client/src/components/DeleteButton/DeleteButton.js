@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Button, Confirm, Icon, Popup } from 'semantic-ui-react';
 import { gql, useMutation } from '@apollo/client';
 
-import { FETCH_POSTS_QUERY } from '../utils/graphql';
+import { FETCH_POSTS_QUERY } from '../../utils/graphql';
 
 const DeleteButton = ({ postId, commentId, callback }) => {
     const [confirmOpen, setConfirmOpen] = useState(false);

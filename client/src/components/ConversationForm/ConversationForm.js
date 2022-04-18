@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { gql, useMutation } from '@apollo/client';
 
-import { AuthContext } from '../context/auth';
+import { AuthContext } from '../../context/auth';
 
 /*
 const CREATE_MESSAGE = gql`

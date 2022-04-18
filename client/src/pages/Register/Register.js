@@ -3,8 +3,8 @@ import { Button, Form } from 'semantic-ui-react';
 import { gql, useMutation } from "@apollo/client";
 import { useNavigate } from 'react-router-dom';
 
-import { useForm } from '../utils/hooks';
-import { AuthContext } from '../context/auth';
+import { useForm } from '../../utils/hooks';
+import { AuthContext } from '../../context/auth';
 
 const Register = () => {
   const context = useContext(AuthContext);

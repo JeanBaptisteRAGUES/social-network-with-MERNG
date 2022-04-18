@@ -1,12 +1,12 @@
 import React, { useContext, useRef, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { Button, Card, Form, Grid, Icon, Image, Label } from 'semantic-ui-react';
 import moment from 'moment';
 
-import { AuthContext } from '../context/auth';
-import LikeButton from '../components/LikeButton';
-import DeleteButton from '../components/DeleteButton';
-import { useNavigate, useParams } from 'react-router-dom';
+import { AuthContext } from '../../context/auth';
+import LikeButton from '../../components/LikeButton';
+import DeleteButton from '../../components/DeleteButton'
 
 const SinglePost = (props) => {
     const { user } = useContext(AuthContext);

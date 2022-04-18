@@ -4,9 +4,9 @@ import { Link, useParams } from 'react-router-dom';
 import { Grid, Transition } from 'semantic-ui-react';
 import { Button, Card, Icon, Label, Image, Popup } from 'semantic-ui-react';
 
-import { AuthContext } from '../context/auth';
-import ConversationForm from '../components/ConversationForm';
-import ConversationCard from '../components/ConversationCard';
+import { AuthContext } from '../../context/auth';
+import ConversationForm from '../../components/ConversationForm';
+import ConversationCard from '../../components/ConversationCard';
 
 const GET_CONVERSATIONS = gql`
   query GetConversations($username: String!, $light: Boolean){

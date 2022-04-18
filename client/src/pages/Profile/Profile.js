@@ -4,8 +4,8 @@ import { Link, useParams } from 'react-router-dom';
 import { Grid, Transition } from 'semantic-ui-react';
 import { Button, Card, Icon, Label, Image, Popup } from 'semantic-ui-react';
 
-import { AuthContext } from '../context/auth';
-import PostCard from '../components/PostCard';
+import { AuthContext } from '../../context/auth';
+import PostCard from '../../components/PostCard';
 import moment from 'moment';
 
 const GET_POSTS_USER = gql`
