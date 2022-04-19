@@ -60,7 +60,7 @@ const PostForm = () => {
     )
 }
 
-const CREATE_POST_MUTATION = gql`
+export const CREATE_POST_MUTATION = gql`
     mutation createPost($body: String!){
         createPost(body: $body){
             id body createdAt username

@@ -11,7 +11,7 @@ const PostCard = ({post: {body, createdAt, id, username, likeCount, commentCount
     const { user } = useContext(AuthContext);
 
     return (
-        <Card fluid>
+        <Card data-testid='postcard' fluid>
             <Card.Content>
                 <Image
                 floated='right'

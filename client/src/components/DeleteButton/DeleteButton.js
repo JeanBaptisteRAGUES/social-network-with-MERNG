@@ -29,7 +29,8 @@ const DeleteButton = ({ postId, commentId, callback }) => {
 
     return (
         <>  <Popup content="Supprimer" inverted trigger={
-                <Button 
+                <Button
+                    data-testid='deletebutton' 
                     as="div" 
                     color='red' 
                     floated='right'
@@ -48,13 +49,13 @@ const DeleteButton = ({ postId, commentId, callback }) => {
     )
 }
 
-const DELETE_POST_MUTATION = gql`
+export const DELETE_POST_MUTATION = gql`
     mutation deletePost($postId: ID!){
         deletePost(postId: $postId)
     }
 `;
 
-const DELETE_COMMENT_MUTATION = gql`
+export const DELETE_COMMENT_MUTATION = gql`
     mutation deleteComment($postId: ID!, $commentId: ID!){
         deleteComment(postId: $postId, commentId: $commentId){
             id

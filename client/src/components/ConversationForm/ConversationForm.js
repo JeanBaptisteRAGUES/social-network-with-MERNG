@@ -3,18 +3,7 @@ import { gql, useMutation } from '@apollo/client';
 
 import { AuthContext } from '../../context/auth';
 
-/*
-const CREATE_MESSAGE = gql`
-    mutation CreateMessage($messageInput: MessageInput) {
-        createMessage(messageInput: $messageInput){
-            text
-            createdBy
-        }
-    }
-`;
-*/
-
-const CREATE_CONVERSATION = gql`
+export const CREATE_CONVERSATION = gql`
     mutation CreateConversation($directMessageInput: DirectMessageInput){
         createConversation(directMessageInput: $directMessageInput) {
             id

@@ -17,7 +17,7 @@ const ConversationCard = ({ conversation: { id, user1, user2, lastMessageDate, m
     const unreadMessages = messages.some(m => m.to === user.username && !m.seen);
 
     return (
-        <Card fluid as={Link} to={`/single-conversation/${id}`} state={{recipient: recipient}} style={ unreadMessages ? { backgroundColor: unreadColor } : { backgroundColor: readColor }} >
+        <Card data-testid='conversationcard' fluid as={Link} to={`/single-conversation/${id}`} state={{recipient: recipient}} style={ unreadMessages ? { backgroundColor: unreadColor } : { backgroundColor: readColor }} >
             <Card.Content>
                 <Image
                     floated='left'

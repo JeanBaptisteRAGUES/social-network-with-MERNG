@@ -19,7 +19,7 @@ const MenuBar = () => {
   }
 
   const menuBar = user ? (
-    <Menu pointing secondary size='massive' color='teal'>
+    <Menu data-testid='menubar-logged' pointing secondary size='massive' color='teal'>
         <Menu.Item
             name={user.username}
             active
@@ -41,7 +41,7 @@ const MenuBar = () => {
         </Menu.Menu>
     </Menu>
   ) : (
-    <Menu pointing secondary size='massive' color='teal'>
+    <Menu data-testid='menubar-unlogged' pointing secondary size='massive' color='teal'>
         <Menu.Item
             name='home'
             active={activeItem === 'home'}

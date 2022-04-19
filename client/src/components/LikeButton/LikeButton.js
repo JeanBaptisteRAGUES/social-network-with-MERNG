@@ -32,7 +32,7 @@ const LikeButton = ({ user, post: { id, likeCount, likes } }) => {
 
     return (
         <Popup content={user ? (liked ? "Je n'aime plus" : "J'aime") : "Se connecter pour pouvoir liker"} inverted trigger={
-            <Button as='div' labelPosition='right' onClick={likePost} >
+            <Button data-testid='likebutton' as='div' labelPosition='right' onClick={likePost} >
                 {likeButton}
                 <Label basic color='teal' pointing='left'>
                     {likeCount}
@@ -43,7 +43,7 @@ const LikeButton = ({ user, post: { id, likeCount, likes } }) => {
     )
 }
 
-const LIKE_POST_MUTATION = gql`
+export const LIKE_POST_MUTATION = gql`
     mutation likePost($postId: ID!){
         likePost(postId: $postId){
             id
