@@ -1,0 +1,1 @@
+export {default} from './dog2.jsx';

@@ -21,7 +21,7 @@ export const CREATE_CONVERSATION = gql`
 `;
 
 const ConversationForm = () => {
-    const { user } = useContext(AuthContext);
+    const {user} = useContext(AuthContext);
     const [recipient, setRecipient] = useState('');
     const [content, setContent] = useState('');
 

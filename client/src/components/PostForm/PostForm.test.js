@@ -6,6 +6,7 @@ import PostForm, {CREATE_POST_MUTATION} from './index';
 
 const mocks = [];
 
+
 test('PostForm renders without error', () => {
     render(
         <MockedProvider mocks={mocks} addTypename={false}>

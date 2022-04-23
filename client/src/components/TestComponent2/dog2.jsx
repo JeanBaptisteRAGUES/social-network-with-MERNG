@@ -14,28 +14,13 @@ export const GET_DOG_QUERY = gql`
   }
 `;
 
-export function Dog({ name }) {
+export function Dog2({ name }) {
   const { username } = useContext(AuthContext);
   console.log(username);
-  /*
-  const { loading, error, data } = useQuery(
-    GET_DOG_QUERY,
-    { variables: { name } }
-  );
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error!</p>;
-  */
 
   return (
     <div>
-      <p>
-        {
-          `Owner name is ${username}`
-        }
-      </p>
-      {/* <p>
-        {data.dog.name} is a {data.dog.breed}
-      </p> */}
+      Salut
     </div>
   );
 }

@@ -1,25 +1,25 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { MockedProvider } from '@apollo/client/testing';
-import ConversationForm from './index';
+import TestPage from './index';
 
 import { AuthProvider } from '../../context/auth';
 
 const mocks = [];
 
-const mockedUser = {
+const userDummy = {
     username: 'Jean'
 }
 
-test('renders without error when user logged', () => {
+test('renders owner div without error', () => {
     render(
         <MockedProvider mocks={mocks} addTypename={false}>
-            <AuthProvider value={{user: mockedUser}} >
-                <ConversationForm />
+            <AuthProvider value={userDummy} >
+                <TestPage />
             </AuthProvider>
         </MockedProvider>,
     );
 
-    const messageDivElem = screen.getByText(/message/i);
-    expect(messageDivElem).toBeInTheDocument();
+    const salutDivElem = screen.getByText(/salut/i);
+    expect(salutDivElem).toBeInTheDocument();
 });

@@ -35,11 +35,12 @@ const Register = () => {
 
   return (
     <div className='form-container'>
+      <h1>Inscription</h1>
       <Form onSubmit={onSubmit} noValidate className={loading ? "loading" : ''}>
-        <h1>Register</h1>
         <Form.Input
-          label="Username"
-          placeholder="Username.."
+          data-testid="username"
+          label="Pseudo"
+          placeholder="Pseudo.."
           name="username"
           type='text'
           value={values.username}
@@ -56,8 +57,8 @@ const Register = () => {
           onChange={onChange}
         />
         <Form.Input
-          label="Password"
-          placeholder="Password.."
+          label="Mot de passe"
+          placeholder="Mot de passe.."
           name="password"
           type='password'
           value={values.password}
@@ -65,8 +66,8 @@ const Register = () => {
           onChange={onChange}
         />
         <Form.Input
-          label="Confirm Password"
-          placeholder="Confirm Password.."
+          label="Confirmation mot de passe"
+          placeholder="Confirmation mot de passe.."
           name="confirmPassword"
           type='password'
           value={values.confirmPassword}
@@ -74,7 +75,7 @@ const Register = () => {
           onChange={onChange}
         />
         <Button type="submit" primary>
-          Register
+          S'inscrire
         </Button>
       </Form>
       {
