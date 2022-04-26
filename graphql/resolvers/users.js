@@ -66,9 +66,9 @@ module.exports = {
             //TODO Make sure user doesn't already exist
             const user = await User.findOne({ username });
             if(user){
-                throw new UserInputError('Username already taken', {
+                throw new UserInputError('Pseudo déjà utilisé', {
                     errors: {
-                        username: 'This unsername is already taken'
+                        username: "Ce pseudo n'est pas disponible"
                     }
                 })
             }
