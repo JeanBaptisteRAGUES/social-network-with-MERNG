@@ -5,10 +5,72 @@ import userEvent from '@testing-library/user-event';
 import { MockedProvider } from '@apollo/client/testing';
 import renderer from 'react-test-renderer';
 
-import Register from './index';
+import {Register, REGISTER_USER} from './Register';
 import { AuthProvider } from '../../context/auth';
 
-const mocks = [];
+/* const dogMocks = [
+    {
+        request: {
+            query: GET_DOG_QUERY,
+            variables: { name: 'Buck' },
+        },
+        result: {
+            data: { dog: { id: 1, name: 'Buck', breed: 'poodle' } },
+        },
+    },
+    {
+        request: {
+            query: DELETE_DOG_MUTATION,
+            variables: { name: 'Buck' },
+        },
+        result: {
+            data: { dog: { id: 1, name: 'Buck', breed: 'poodle' } },
+        },
+    }
+]; */
+
+const mocks = [
+    {
+        request: {
+            query: REGISTER_USER,
+            variables: {
+                username: 'TestUser',
+                email: 'testuser@test.com',
+                password: '123456',
+                confirmPassword: '123456',
+            },
+        },
+        result: {
+            data: {
+                id: 'testid123',
+                email: 'testuser@test.com',
+                username: 'TestUser',
+                createdAt: '01-01-2022',
+                token: 'testjwt123',
+            },
+        },
+    },
+];
+
+/* const REGISTER_USER = gql`
+  mutation register(
+    $username: String!
+    $email: String!
+    $password: String!
+    $confirmPassword: String!
+  ){
+    register(
+      registerInput: {
+        username: $username
+        email: $email
+        password: $password
+        confirmPassword: $confirmPassword
+      }
+    ){
+      id email username createdAt token
+    }
+  }
+` */
 
 const userDummy = {
     username: 'Jean'

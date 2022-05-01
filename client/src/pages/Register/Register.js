@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from '../../utils/hooks';
 import { AuthContext } from '../../context/auth';
 
-const Register = () => {
+export const Register = () => {
   const context = useContext(AuthContext);
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
@@ -93,7 +93,7 @@ const Register = () => {
   )
 }
 
-const REGISTER_USER = gql`
+export const REGISTER_USER = gql`
   mutation register(
     $username: String!
     $email: String!
@@ -111,6 +111,4 @@ const REGISTER_USER = gql`
       id email username createdAt token
     }
   }
-`
-
-export default Register;
+`;
