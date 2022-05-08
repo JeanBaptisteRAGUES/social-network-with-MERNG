@@ -6,11 +6,32 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from '../../utils/hooks';
 import { AuthContext } from '../../context/auth';
 
-export const Register = () => {
+export const REGISTER_USER = gql`
+  mutation register(
+    $username: String!
+    $email: String!
+    $password: String!
+    $confirmPassword: String!
+  ){
+    register(
+      registerInput: {
+        username: $username
+        email: $email
+        password: $password
+        confirmPassword: $confirmPassword
+      }
+    ){
+      id email username createdAt token
+    }
+  }
+`;
+
+const Register = () => {
   const context = useContext(AuthContext);
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
 
+  //TODO: Le problème vient de useForm ?
   const { onChange, onSubmit, values } = useForm(registerUser, {
     username: '',
     email: '',
@@ -18,25 +39,55 @@ export const Register = () => {
     confirmPassword: ''
   });
 
-  const [addUser, { loading }] = useMutation(REGISTER_USER, {
-    update(_, { data: { register: userData } }){
-      context.login(userData);
-      navigate('/');
+  /* const [addUser, { loading }] = useMutation(REGISTER_USER, {
+    update(_, { data: { register: userData } } = {} ){
+      if(userData){
+        context.login(userData);
+        navigate('/');
+      }
     },
     onError(err){
+      console.log(err);
+      console.log(err.graphQLErrors[0]);
+      console.log(err.graphQLErrors[0].extensions.errors);
       setErrors(err.graphQLErrors[0].extensions.errors);
     },
     variables: values
-  });
+  }); */
+
+  const [addUser, { loading }] = useMutation(REGISTER_USER);
 
   function registerUser(){
-    addUser();
+    addUser({variables: values});
   }
 
+  //TODO: Gérer les extensions
+  const registerUser2 = async () => {
+    try{
+      const res = await addUser({
+        variables: {
+          username: '',
+          email: '',
+          password: '',
+          confirmPassword: ''
+        }
+      });
+      console.log(res);
+    }catch(err){
+      console.log(err);
+      console.log(err.graphQLErrors[0]);
+      console.log(err.graphQLErrors[0].extensions);
+      console.log(err.graphQLErrors[0].extensions.errors);
+      console.log(err.graphQLErrors[0].message);
+      setErrors(err.graphQLErrors[0].extensions.errors);
+    }
+  }
+
+  //onSubmit={registerUser2}
   return (
     <div className='form-container'>
       <h1>Inscription</h1>
-      <Form onSubmit={onSubmit} noValidate className={loading ? "loading" : ''}>
+      <Form onSubmit={registerUser2} noValidate className={loading ? "loading" : ''}>
         <Form.Input
           data-testid="username"
           label="Pseudo"
@@ -93,22 +144,4 @@ export const Register = () => {
   )
 }
 
-export const REGISTER_USER = gql`
-  mutation register(
-    $username: String!
-    $email: String!
-    $password: String!
-    $confirmPassword: String!
-  ){
-    register(
-      registerInput: {
-        username: $username
-        email: $email
-        password: $password
-        confirmPassword: $confirmPassword
-      }
-    ){
-      id email username createdAt token
-    }
-  }
-`;
+export default Register;

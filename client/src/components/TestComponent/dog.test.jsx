@@ -83,8 +83,7 @@ describe('Errors tests', function(){
         username: 'Jean'
     };
 
-    //Testing network errors
-    test('shows network error UI', async () => {
+    test('shows network error on query', async () => {
         const dogMock = {
             request: {
                 query: GET_DOG_QUERY,
@@ -101,12 +100,12 @@ describe('Errors tests', function(){
             </MockedProvider>,
         );
 
-        const errorDivElem = await screen.findByText(/error/i);
+        const errorDivElem = await screen.findByText(/query error : an error occured/i);
+        screen.debug();
         expect(errorDivElem).toBeInTheDocument();
     });
 
-    //Testing graphQL errors
-    test('shows graphQL error UI', async () => {
+    test('shows graphQL error on query', async () => {
         const dogMock = {
             request: {
                 query: GET_DOG_QUERY,
@@ -124,13 +123,87 @@ describe('Errors tests', function(){
                 </AuthProvider>
             </MockedProvider>,
         );
+        const errorDivElem = await screen.findByText(/query error : graphql error/i);
+        screen.debug();
+        expect(errorDivElem).toBeInTheDocument();
+    });
 
-        const errorDivElem = await screen.findByText(/error/i);
+    test('shows network error on mutation', async () => {
+        const dogMocks = [
+            {
+                request: {
+                    query: GET_DOG_QUERY,
+                    variables: { name: 'Buck' },
+                },
+                result: {
+                    data: { dog: { id: 1, name: 'Buck', breed: 'poodle' } },
+                },
+            },
+            {
+                request: {
+                    query: DELETE_DOG_MUTATION,
+                    variables: { name: 'Buck', breed: 'poodle' },
+                },
+                error: new Error('An error occured'),
+            }
+        ];
+
+        render(
+            <MockedProvider mocks={dogMocks} addTypename={false}>
+                <AuthProvider value={mockedUser} >
+                    <Dog name="Buck" />
+                </AuthProvider>
+            </MockedProvider>,
+        );
+
+        const deleteBtnDivElem = await screen.findByRole('button');
+        userEvent.click(deleteBtnDivElem);
+
+        const errorDivElem = await screen.findByText(/mutation error : an error occured/i);
+        screen.debug();
+        expect(errorDivElem).toBeInTheDocument();
+    });
+
+    test('shows graphQL error on mutation', async () => {
+        const dogMocks = [
+            {
+                request: {
+                    query: GET_DOG_QUERY,
+                    variables: { name: 'Buck' },
+                },
+                result: {
+                    data: { dog: { id: 1, name: 'Buck', breed: 'poodle' } },
+                },
+            },
+            {
+                request: {
+                    query: DELETE_DOG_MUTATION,
+                    variables: { name: 'Buck', breed: 'poodle' },
+                },
+                result: {
+                    errors: [new GraphQLError('GraphQL error !')],
+                }
+            }
+        ];
+
+        render(
+            <MockedProvider mocks={dogMocks} addTypename={false}>
+                <AuthProvider value={mockedUser} >
+                    <Dog name="Buck" />
+                </AuthProvider>
+            </MockedProvider>,
+        );
+
+        const deleteBtnDivElem = await screen.findByRole('button');
+        userEvent.click(deleteBtnDivElem);
+
+        const errorDivElem = await screen.findByText(/mutation error : graphql error/i);
+        screen.debug();
         expect(errorDivElem).toBeInTheDocument();
     });
 });
 
-describe('User interactions tests', function(){
+/* describe('User interactions tests', function(){
     const mockedUser = {
         username: 'Jean'
     };
@@ -148,10 +221,10 @@ describe('User interactions tests', function(){
         {
             request: {
                 query: DELETE_DOG_MUTATION,
-                variables: { name: 'Buck' },
+                variables: { name: 'Buck', breed: 'poodle' },
             },
             result: {
-                data: { deleteDog: { id: 1, name: 'Buck', breed: 'poodle' } },
+                data: { deletedDog: { id: 1, name: 'Buck', breed: 'poodle' } },
             },
         }
     ];
@@ -174,4 +247,4 @@ describe('User interactions tests', function(){
         screen.debug();
         expect(deleteMessageDivElem).toBeInTheDocument();
     });
-});
+}); */

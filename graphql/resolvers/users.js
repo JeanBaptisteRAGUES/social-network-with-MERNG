@@ -58,12 +58,12 @@ module.exports = {
             };
         },
         async register(_, {registerInput : {username, email, password, confirmPassword}}){
-            //TODO Validate user data
+            //Validate user data
             const { valid, errors } = validateRegisterInput(username, email, password, confirmPassword);
             if(!valid){
                 throw new UserInputError('Errors', { errors });
             }
-            //TODO Make sure user doesn't already exist
+            //Make sure user doesn't already exist
             const user = await User.findOne({ username });
             if(user){
                 throw new UserInputError('Pseudo déjà utilisé', {
