@@ -10,12 +10,6 @@ export const useForm = (callback, initialState = {}) => {
     const onSubmit = evt => {
         evt.preventDefault();
         callback();
-        /* try{
-            callback();
-        }catch(err){
-            if(err.message) console.log(err.message);
-            if(!err.message) console.log(JSON.stringify(err));
-        } */
     }
 
     return {

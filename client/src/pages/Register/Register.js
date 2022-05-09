@@ -39,7 +39,7 @@ const Register = () => {
     confirmPassword: ''
   });
 
-  /* const [addUser, { loading }] = useMutation(REGISTER_USER, {
+  const [addUser, { loading }] = useMutation(REGISTER_USER, {
     update(_, { data: { register: userData } } = {} ){
       if(userData){
         context.login(userData);
@@ -53,16 +53,16 @@ const Register = () => {
       setErrors(err.graphQLErrors[0].extensions.errors);
     },
     variables: values
-  }); */
+  });
 
-  const [addUser, { loading }] = useMutation(REGISTER_USER);
+  //const [addUser, { loading }] = useMutation(REGISTER_USER);
 
   function registerUser(){
     addUser({variables: values});
   }
 
   //TODO: Gérer les extensions
-  const registerUser2 = async () => {
+  async function registerUser2(){
     try{
       const res = await addUser({
         variables: {
@@ -87,7 +87,7 @@ const Register = () => {
   return (
     <div className='form-container'>
       <h1>Inscription</h1>
-      <Form onSubmit={registerUser2} noValidate className={loading ? "loading" : ''}>
+      <Form onSubmit={onSubmit} noValidate className={loading ? "loading" : ''}>
         <Form.Input
           data-testid="username"
           label="Pseudo"

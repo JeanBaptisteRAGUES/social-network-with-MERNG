@@ -217,56 +217,33 @@ describe('Test form inputs', function(){
     }
 ]; */
 
+//TODO: voir si on peut faire ça directement avec les resolvers ou au moins avec des données en entrée qui sont cohérentes avec l'erreur
 describe('Test errors during form submission', function(){
-    
-
-    /* const mocks = [
-        {
-            request: {
-                query: REGISTER_USER,
-                variables: {
-                    username: '',
-                    email: '',
-                    password: '',
-                    confirmPassword: '',
-                },
-            },
-            result: {
-                errors: [new GraphQLError("Le nom d'utilisateur ne doit pas être vide")]
-            }
-        },
-    ]; */
-    const mocks = [
-        {
-            request: {
-                query: REGISTER_USER,
-                variables: {
-                    username: '',
-                    email: '',
-                    password: '',
-                    confirmPassword: '',
-                },
-            },
-            result: {
-                errors: [new UserInputError('Errors', { errors: { username: "Le nom d'utilisateur ne doit pas être vide" } })]
-            },
-        },
-    ];
-    /* result: () => {
-        // ...arbitrary logic...
-
-        return {
-            data: {
-                dog: { id: '1', name: 'Buck', breed: 'bulldog' },
-            },
-        }
-    }, */
 
     const userDummy = {
         username: 'Jean'
     };
 
-    beforeEach(() => {
+    test("should show username error on empty username", async () => {
+        const errorDescription = "Le nom d'utilisateur ne doit pas être vide";
+
+        const mocks = [
+            {
+                request: {
+                    query: REGISTER_USER,
+                    variables: {
+                        username: '',
+                        email: '',
+                        password: '',
+                        confirmPassword: '',
+                    },
+                },
+                result: {
+                    errors: [new UserInputError('Errors', { errors: { username: errorDescription } })]
+                },
+            },
+        ];
+
         const {container} = render(
             <MockedProvider mocks={mocks} addTypename={false}>
                 <AuthProvider value={userDummy} >
@@ -276,24 +253,195 @@ describe('Test errors during form submission', function(){
                 </AuthProvider>
             </MockedProvider>,
         );
-    });
 
-    //TODO: utilise une requete graphQL, agir en conséquence
-    test("should show username error on invalid username", async () => {
-        const usernameErrorElement1 = screen.queryByText("Le nom d'utilisateur ne doit pas être vide");
+        const usernameErrorElement1 = screen.queryByText(errorDescription);
         const submitBtnElement = screen.getByRole('button');
 
         screen.debug();
         expect(usernameErrorElement1).not.toBeInTheDocument();
 
         userEvent.click(submitBtnElement);
-        //userEvent.dblClick(submitBtnElement);
 
-        //const usernameErrorElement2 = screen.queryByText("Le nom d'utilisateur ne doit pas être vide");
-        const usernameErrorElement2 = await screen.findAllByText("Le nom d'utilisateur ne doit pas être vide");
+        const usernameErrorElement2 = await screen.findAllByText(errorDescription);
         screen.debug();
 
         expect(usernameErrorElement2.length).toBe(2);
+    });
+
+    test("should show email error on empty email", async () => {
+        const errorDescription = "L'email ne doit pas être vide";
+
+        const mocks = [
+            {
+                request: {
+                    query: REGISTER_USER,
+                    variables: {
+                        username: '',
+                        email: '',
+                        password: '',
+                        confirmPassword: '',
+                    },
+                },
+                result: {
+                    errors: [new UserInputError('Errors', { errors: { email: errorDescription } })]
+                },
+            },
+        ];
+
+        const {container} = render(
+            <MockedProvider mocks={mocks} addTypename={false}>
+                <AuthProvider value={userDummy} >
+                    <Router>
+                        <Register />
+                    </Router>
+                </AuthProvider>
+            </MockedProvider>,
+        );
+        
+        const emailErrorElement1 = screen.queryByText(errorDescription);
+        const submitBtnElement = screen.getByRole('button');
+
+        screen.debug();
+        expect(emailErrorElement1).not.toBeInTheDocument();
+
+        userEvent.click(submitBtnElement);
+
+        const emailErrorElement2 = await screen.findAllByText(errorDescription);
+        screen.debug();
+
+        expect(emailErrorElement2.length).toBe(2);
+    });
+
+    test("should show email error on incorrect email", async () => {
+        const errorDescription = "Veuillez entrer une adresse mail valide";
+
+        const mocks = [
+            {
+                request: {
+                    query: REGISTER_USER,
+                    variables: {
+                        username: '',
+                        email: '',
+                        password: '',
+                        confirmPassword: '',
+                    },
+                },
+                result: {
+                    errors: [new UserInputError('Errors', { errors: { email: errorDescription } })]
+                },
+            },
+        ];
+
+        const {container} = render(
+            <MockedProvider mocks={mocks} addTypename={false}>
+                <AuthProvider value={userDummy} >
+                    <Router>
+                        <Register />
+                    </Router>
+                </AuthProvider>
+            </MockedProvider>,
+        );
+        
+        const emailErrorElement1 = screen.queryByText(errorDescription);
+        const submitBtnElement = screen.getByRole('button');
+
+        screen.debug();
+        expect(emailErrorElement1).not.toBeInTheDocument();
+
+        userEvent.click(submitBtnElement);
+
+        const emailErrorElement2 = await screen.findAllByText(errorDescription);
+        screen.debug();
+
+        expect(emailErrorElement2.length).toBe(2);
+    });
+
+    test("should show password error on empty password", async () => {
+        const errorDescription = "Veuillez entrer un mot de passe";
+
+        const mocks = [
+            {
+                request: {
+                    query: REGISTER_USER,
+                    variables: {
+                        username: '',
+                        email: '',
+                        password: '',
+                        confirmPassword: '',
+                    },
+                },
+                result: {
+                    errors: [new UserInputError('Errors', { errors: { password: errorDescription } })]
+                },
+            },
+        ];
+
+        const {container} = render(
+            <MockedProvider mocks={mocks} addTypename={false}>
+                <AuthProvider value={userDummy} >
+                    <Router>
+                        <Register />
+                    </Router>
+                </AuthProvider>
+            </MockedProvider>,
+        );
+        
+        const passwordErrorElement1 = screen.queryByText(errorDescription);
+        const submitBtnElement = screen.getByRole('button');
+
+        screen.debug();
+        expect(passwordErrorElement1).not.toBeInTheDocument();
+
+        userEvent.click(submitBtnElement);
+
+        const passwordErrorElement2 = await screen.findAllByText(errorDescription);
+        screen.debug();
+
+        expect(passwordErrorElement2.length).toBe(2);
+    });
+
+    test("should show confirm password error on passwords not matching", async () => {
+        const errorDescription = "Les mots de passe doivent être identiques";
+
+        const mocks = [
+            {
+                request: {
+                    query: REGISTER_USER,
+                    variables: {
+                        username: '',
+                        email: '',
+                        password: '',
+                        confirmPassword: '',
+                    },
+                },
+                result: {
+                    errors: [new UserInputError('Errors', { errors: { confirmPassword: errorDescription } })]
+                },
+            },
+        ];
+
+        const {container} = render(
+            <MockedProvider mocks={mocks} addTypename={false}>
+                <AuthProvider value={userDummy} >
+                    <Router>
+                        <Register />
+                    </Router>
+                </AuthProvider>
+            </MockedProvider>,
+        );
+        
+        const confirmPasswordErrorElement1 = screen.queryByText(errorDescription);
+        const submitBtnElement = screen.getByRole('button');
+
+        screen.debug();
+        expect(confirmPasswordErrorElement1).not.toBeInTheDocument();
+
+        userEvent.click(submitBtnElement);
+
+        const confirmPasswordErrorElement2 = await screen.findAllByText(errorDescription);
+        screen.debug();
+
+        expect(confirmPasswordErrorElement2.length).toBe(2);
     });
 });
 
