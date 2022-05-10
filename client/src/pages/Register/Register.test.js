@@ -233,7 +233,7 @@ describe('Test errors during form submission', function(){
                     query: REGISTER_USER,
                     variables: {
                         username: '',
-                        email: '',
+                        email: 'test@test.com',
                         password: '',
                         confirmPassword: '',
                     },
@@ -256,14 +256,14 @@ describe('Test errors during form submission', function(){
 
         const usernameErrorElement1 = screen.queryByText(errorDescription);
         const submitBtnElement = screen.getByRole('button');
+        const emailInputElement = screen.getByPlaceholderText(/email/i);
+        userEvent.type(emailInputElement, "test@test.com");
 
-        screen.debug();
         expect(usernameErrorElement1).not.toBeInTheDocument();
 
         userEvent.click(submitBtnElement);
 
         const usernameErrorElement2 = await screen.findAllByText(errorDescription);
-        screen.debug();
 
         expect(usernameErrorElement2.length).toBe(2);
     });
@@ -301,13 +301,11 @@ describe('Test errors during form submission', function(){
         const emailErrorElement1 = screen.queryByText(errorDescription);
         const submitBtnElement = screen.getByRole('button');
 
-        screen.debug();
         expect(emailErrorElement1).not.toBeInTheDocument();
 
         userEvent.click(submitBtnElement);
 
         const emailErrorElement2 = await screen.findAllByText(errorDescription);
-        screen.debug();
 
         expect(emailErrorElement2.length).toBe(2);
     });
@@ -345,13 +343,11 @@ describe('Test errors during form submission', function(){
         const emailErrorElement1 = screen.queryByText(errorDescription);
         const submitBtnElement = screen.getByRole('button');
 
-        screen.debug();
         expect(emailErrorElement1).not.toBeInTheDocument();
 
         userEvent.click(submitBtnElement);
 
         const emailErrorElement2 = await screen.findAllByText(errorDescription);
-        screen.debug();
 
         expect(emailErrorElement2.length).toBe(2);
     });
@@ -389,13 +385,11 @@ describe('Test errors during form submission', function(){
         const passwordErrorElement1 = screen.queryByText(errorDescription);
         const submitBtnElement = screen.getByRole('button');
 
-        screen.debug();
         expect(passwordErrorElement1).not.toBeInTheDocument();
 
         userEvent.click(submitBtnElement);
 
         const passwordErrorElement2 = await screen.findAllByText(errorDescription);
-        screen.debug();
 
         expect(passwordErrorElement2.length).toBe(2);
     });
@@ -433,13 +427,11 @@ describe('Test errors during form submission', function(){
         const confirmPasswordErrorElement1 = screen.queryByText(errorDescription);
         const submitBtnElement = screen.getByRole('button');
 
-        screen.debug();
         expect(confirmPasswordErrorElement1).not.toBeInTheDocument();
 
         userEvent.click(submitBtnElement);
 
         const confirmPasswordErrorElement2 = await screen.findAllByText(errorDescription);
-        screen.debug();
 
         expect(confirmPasswordErrorElement2.length).toBe(2);
     });

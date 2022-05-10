@@ -48,8 +48,8 @@ const Register = () => {
     },
     onError(err){
       console.log(err);
-      console.log(err.graphQLErrors[0]);
-      console.log(err.graphQLErrors[0].extensions.errors);
+      //console.log(err.graphQLErrors[0]);
+      //console.log(err.graphQLErrors[0].extensions.errors);
       setErrors(err.graphQLErrors[0].extensions.errors);
     },
     variables: values
