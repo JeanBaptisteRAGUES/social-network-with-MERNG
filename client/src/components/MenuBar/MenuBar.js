@@ -21,6 +21,7 @@ const MenuBar = () => {
   const menuBar = user ? (
     <Menu data-testid='menubar-logged' pointing secondary size='massive' color='teal'>
         <Menu.Item
+            data-cy='username-link'
             name={user.username}
             active
             as={Link}
@@ -43,6 +44,7 @@ const MenuBar = () => {
   ) : (
     <Menu data-testid='menubar-unlogged' pointing secondary size='massive' color='teal'>
         <Menu.Item
+            data-cy='home-link'
             name='home'
             active={activeItem === 'home'}
             onClick={handleItemClick}

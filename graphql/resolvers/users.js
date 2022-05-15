@@ -20,7 +20,7 @@ module.exports = {
             const user = await User.findOne({username});
 
             if(!user){
-                throw new UserInputError('User not found');
+                throw new UserInputError('Utilisateur inconnu');
             }
 
             return {
@@ -39,14 +39,14 @@ module.exports = {
             }
 
             if(!user){
-                errors.general = 'User not found';
-                throw new UserInputError('User not found', {errors});
+                errors.general = 'Utilisateur inconnu';
+                throw new UserInputError('Utilisateur inconnu', {errors});
             }
 
             const match = await bcrypt.compare(password, user.password);
             if(!match){
-                errors.general = 'Wrong credentials';
-                throw new UserInputError('Wrong credentials', {errors});
+                errors.general = 'Identifiants invalides';
+                throw new UserInputError('Identifiants invalides', {errors});
             }
 
             const token = generateToken(user);
