@@ -49,8 +49,6 @@ Cypress.Commands.add('loginWithRequest', (username, password) => {
         body: { query : LOGIN_USER },
     })
     .then(res => {
-        cy.log(JSON.stringify(res));
-        cy.log(res.body.data.login.token);
         window.localStorage.setItem('jwtToken', res.body.data.login.token);
         cy.visit('/');
     })
