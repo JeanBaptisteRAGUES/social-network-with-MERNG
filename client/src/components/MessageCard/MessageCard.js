@@ -42,7 +42,7 @@ const DELETE_DIRECT_MESSAGE = gql`
   }
 `; */
 
-const MessageCard = ({conversationId,  message: { id, from, to, createdAt, content, seen }, fromUser }) => {
+const MessageCard = ({conversationId,  message: { id, from, to, createdAt, content, seen }, fromUser, deleteMessage }) => {
     moment.locale('fr');
     const { user } = useContext(AuthContext);
     const [focused, setFocused] = useState(false);
@@ -66,9 +66,15 @@ const MessageCard = ({conversationId,  message: { id, from, to, createdAt, conte
         }
     }); */
 
-    const supprimerMessage = () => {
+    const supprimerMessage = async () => {
         console.log("Suppression du message (" + id + ')');
-        deleteDirectMessage();
+        try{
+            const res = await deleteDirectMessage();
+            deleteMessage(id);
+            console.log(res);
+        }catch(err){
+            alert("Une erreur est survenue lors de la suppression du message !");
+        }
     }
 
     const userMessage = fromUser && (

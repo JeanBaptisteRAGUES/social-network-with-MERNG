@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { gql, useMutation, useQuery, useSubscription } from '@apollo/client';
-import { Button, Form } from 'semantic-ui-react';
+import { Button, Form, Transition } from 'semantic-ui-react';
 
 import { AuthContext } from '../../context/auth';
 import MessageCard from '../../components/MessageCard';
@@ -14,6 +14,7 @@ const LISTEN_CONVERSATIONS_UPDATES = gql`
       user2
       lastMessageDate
       messages {
+        id
         content
         from
         to
@@ -167,6 +168,13 @@ const SingleConversation = (props) => {
     }
   }, [messages]);
 
+  const deleteMessage = (id) => {
+    console.log(`Suppression du message (${id}) de la conversation`)
+    const messagesCopy = [...messages];
+    const newMessagesList = messagesCopy.filter(m => m.id !== id);
+    setMessages(newMessagesList);
+  }
+
   const sendDirectMessage = (e) => {
     e.preventDefault();
     if(conversationId === 'new'){
@@ -188,16 +196,20 @@ const SingleConversation = (props) => {
       <div style={{display: 'flex', flexDirection: 'column-reverse', width: '100%', overflow: 'auto', margin: '5px'}} >
         { 
           (!loadingConversation && messages.length > 0) ?
-            messages.map((message, i) => {
-              const fromUser = message.from === user.username;
-              return (
-              <div key={message.id ? message.id : i } style={ fromUser ? { width: 'auto', maxWidth: 400 , margin: '0 5px 10px 5px' , alignSelf: 'end' } : { width: 'auto', maxWidth: 400 , marginBottom: 20, marginLeft: 5, alignSelf: 'start' }} >
-                <MessageCard conversationId={conversationId} message={message} fromUser={fromUser} />
-              </div>
-              )
-            })
+            <Transition.Group>
+              {
+                messages.map((message, i) => {
+                  const fromUser = message.from === user.username;
+                  return (
+                  <div key={message.id ? message.id : i } style={ fromUser ? { width: 'auto', maxWidth: 400 , margin: '0 5px 10px 5px' , alignSelf: 'end' } : { width: 'auto', maxWidth: 400 , marginBottom: 20, marginLeft: 5, alignSelf: 'start' }} >
+                    <MessageCard conversationId={conversationId} message={message} fromUser={fromUser} deleteMessage={deleteMessage} />
+                  </div>
+                  )
+                })
+              }
+            </Transition.Group>
           : 
-          <p style={{alignSelf: 'center'}} >Aucun message pour l'instant</p>
+            <p style={{alignSelf: 'center'}} >Aucun message pour l'instant</p>
         }
       </div>
       <Form onSubmit={(e) => sendDirectMessage(e)} style={{ width: '100%', height: '35px',  display: 'flex', flexDirection: 'row'}} >
