@@ -192,7 +192,7 @@ const SingleConversation = (props) => {
               const fromUser = message.from === user.username;
               return (
               <div key={message.id ? message.id : i } style={ fromUser ? { width: 'auto', maxWidth: 400 , margin: '0 5px 10px 5px' , alignSelf: 'end' } : { width: 'auto', maxWidth: 400 , marginBottom: 20, marginLeft: 5, alignSelf: 'start' }} >
-                <MessageCard message={message} fromUser={fromUser} />
+                <MessageCard conversationId={conversationId} message={message} fromUser={fromUser} />
               </div>
               )
             })

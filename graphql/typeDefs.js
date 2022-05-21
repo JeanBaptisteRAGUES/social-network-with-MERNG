@@ -87,7 +87,7 @@ module.exports = gql`
         createMessage(messageInput: MessageInput): Message!
         createDirectMessage(conversationId: ID!, directMessageInput: DirectMessageInput): Conversation!
         setMessagesAsSeen(conversationId: ID!, recipient: String!): Conversation!
-        deleteDirectMessage(conversationId: ID!, directMessageId: ID!): String!
+        deleteDirectMessage(conversationId: ID!, directMessageId: ID!): Conversation!
         createConversation(directMessageInput: DirectMessageInput): Conversation!
         deleteConversation(conversationId: ID!): String!
     }

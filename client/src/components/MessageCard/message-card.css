@@ -27,6 +27,21 @@
     font-size: medium;
 }
 
+.flexColRight:focus>.messageContentUser{
+    background-color: rgb(40, 105, 225);
+}
+
+/* .messageContentUser:focus::after{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+    content: 'Supprimer';
+    background-color: white;
+    color: red;
+} */
+
 .messageContentRecipient{
     padding: 10px 15px 10px 15px;
     background-color: whitesmoke;
@@ -38,4 +53,20 @@
 .graySmallText{
     color: gray;
     font-size: small;
+}
+
+.spaceAround{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding-left: 20px;
+    width: 100%;
+}
+
+.deleteBtn{
+    cursor: pointer;
+    color: red;
 }
