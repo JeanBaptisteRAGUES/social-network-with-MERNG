@@ -17,6 +17,7 @@ import Conversations from './pages/Conversations';
 import SingleConversation from './pages/SingleConversation';
 import Profile from './pages/Profile';
 
+//TODO: error boundary class component ?
 function App() {
   return (
     <AuthProvider>
