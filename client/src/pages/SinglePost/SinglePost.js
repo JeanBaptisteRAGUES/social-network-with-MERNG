@@ -87,7 +87,7 @@ const SinglePost = (props) => {
                             user && (
                                 <Card fluid>
                                     <Card.Content>
-                                        <p>Post a comment</p>
+                                        <p>Ajouter un commentaire</p>
                                         <Form>
                                             <div className='ui action input fluid' >
                                                 <input 
