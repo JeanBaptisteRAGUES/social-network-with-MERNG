@@ -7,6 +7,7 @@ import { ApolloProvider } from "@apollo/react-hooks";
 import { setContext } from '@apollo/client/link/context';
 
 import App from './App';
+import ErrorBoundary from './components/ErrorBoundary';
 
 const httpLink = new HttpLink({
   uri: 'http://localhost:5000/graphql'
@@ -52,7 +53,9 @@ console.log(JSON.stringify(authLink));
 
 render(
   <ApolloProvider client={client}>
-    <App />
+    <ErrorBoundary>
+      <App />
+    </ErrorBoundary>
   </ApolloProvider>,
   document.getElementById('root'),
 );

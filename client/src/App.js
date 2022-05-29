@@ -19,6 +19,7 @@ import Profile from './pages/Profile';
 
 //TODO: error boundary class component ?
 function App() {
+  //throw Error('TEST ERROR');
   return (
     <AuthProvider>
       <Router>

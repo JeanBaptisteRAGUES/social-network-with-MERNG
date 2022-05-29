@@ -30,6 +30,9 @@ const Login = (props) => {
     loginUser();
   }
 
+  // Uncomment the next line if you want to test boundary errors when trying to login
+  // throw Error('Erreur Login');
+
   return (
     <div className='form-container'>
       <Form onSubmit={onSubmit} noValidate className={loading ? "loading" : ''}>
