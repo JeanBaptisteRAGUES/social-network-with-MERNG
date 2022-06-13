@@ -9,8 +9,25 @@ import { setContext } from '@apollo/client/link/context';
 import App from './App';
 import ErrorBoundary from './components/ErrorBoundary';
 
-const httpLink = new HttpLink({
+//TODO: gérer quand c'est pas localhost
+let myURI = '';
+/* const httpLink = new HttpLink({
   uri: 'http://localhost:5000/graphql'
+}); */
+/* const httpLink = new HttpLink({
+  uri: 'https://fierce-gorge-01389.herokuapp.com/',
+}); */
+if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+  myURI = 'http://localhost:5000/graphql';
+} else {
+  myURI = 'https://fierce-gorge-01389.herokuapp.com/graphql';
+}
+
+//Test : "https://social-network-with-merng.herokuapp.com/graphql"
+//Test2 : "https://social-network-server-1994.herokuapp.com/graphql"
+
+const httpLink = new HttpLink({
+  uri: "https://social-network-server-1994.herokuapp.com/graphql"
 });
 
 const wsLink = new WebSocketLink({
