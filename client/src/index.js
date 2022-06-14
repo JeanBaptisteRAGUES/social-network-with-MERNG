@@ -10,28 +10,23 @@ import App from './App';
 import ErrorBoundary from './components/ErrorBoundary';
 
 //TODO: gérer quand c'est pas localhost
-let myURI = '';
-/* const httpLink = new HttpLink({
-  uri: 'http://localhost:5000/graphql'
-}); */
-/* const httpLink = new HttpLink({
-  uri: 'https://fierce-gorge-01389.herokuapp.com/',
-}); */
+let myURI_http = '';
+let myURI_ws = '';
+
 if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-  myURI = 'http://localhost:5000/graphql';
+  myURI_http = 'http://localhost:5000/graphql';
+  myURI_ws = 'ws://localhost:5000/graphql';
 } else {
-  myURI = 'https://fierce-gorge-01389.herokuapp.com/graphql';
+  myURI_http = 'https://social-network-server-1994.herokuapp.com/graphql';
+  myURI_ws = 'ws://social-network-server-1994.herokuapp.com/graphql';
 }
 
-//Test : "https://social-network-with-merng.herokuapp.com/graphql"
-//Test2 : "https://social-network-server-1994.herokuapp.com/graphql"
-
 const httpLink = new HttpLink({
-  uri: myURI
+  uri: myURI_http
 });
 
 const wsLink = new WebSocketLink({
-  uri: 'ws://localhost:5000/graphql',
+  uri: myURI_ws,
   options: {
     reconnect: true
   }
