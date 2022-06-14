@@ -27,7 +27,7 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
 //Test2 : "https://social-network-server-1994.herokuapp.com/graphql"
 
 const httpLink = new HttpLink({
-  uri: "https://social-network-server-1994.herokuapp.com/graphql"
+  uri: myURI
 });
 
 const wsLink = new WebSocketLink({
