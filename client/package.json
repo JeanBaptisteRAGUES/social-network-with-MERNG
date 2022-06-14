@@ -55,5 +55,6 @@
     "cypress": "^9.6.1",
     "jest": "^27.5.1",
     "jest-watch-typeahead": "^0.6.5"
-  }
+  },
+  "proxy": "https://social-network-server-1994.herokuapp.com/graphql"
 }
