@@ -18,7 +18,7 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
   myURI_ws = 'ws://localhost:5000/graphql';
 } else {
   myURI_http = 'https://social-network-server-1994.herokuapp.com/graphql';
-  myURI_ws = 'ws://social-network-server-1994.herokuapp.com/graphql';
+  myURI_ws = 'wss://social-network-server-1994.herokuapp.com/graphql';
 }
 
 const httpLink = new HttpLink({
