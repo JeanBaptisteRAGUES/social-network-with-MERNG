@@ -6,6 +6,7 @@ On peut s'inscrire et se connecter pour ensuite créer des posts publics qui peu
 On peut aussi aller sur le profil d'un utilisateur et commencer une conversation privée avec lui par messagerie instantannée.<br/>
 Déploiement Front-End : Netlify<br/>
 Déploiement Back-End : Heroku<br/>
+Base de données : MongoDB
 
 ## Lien du site :
 https://social-network-1994.netlify.app/
