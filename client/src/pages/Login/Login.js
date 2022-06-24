@@ -36,10 +36,10 @@ const Login = (props) => {
   return (
     <div className='form-container'>
       <Form onSubmit={onSubmit} noValidate className={loading ? "loading" : ''}>
-        <h1>Login</h1>
+        <h1>Connexion</h1>
         <Form.Input
-          label="Username"
-          placeholder="Username.."
+          label="Pseudo"
+          placeholder="Pseudo.."
           name="username"
           type='text'
           value={values.username}
@@ -47,8 +47,8 @@ const Login = (props) => {
           onChange={onChange}
         />
         <Form.Input
-          label="Password"
-          placeholder="Password.."
+          label="Mot de passe"
+          placeholder="Mot de passe.."
           name="password"
           type='password'
           value={values.password}
@@ -56,7 +56,7 @@ const Login = (props) => {
           onChange={onChange}
         />
         <Button type="submit" primary>
-          Login
+          Connexion
         </Button>
       </Form>
       {

@@ -10,49 +10,6 @@ const { UserInputError } = require('apollo-server');
 import Register, { REGISTER_USER} from './Register';
 import { AuthProvider } from '../../context/auth';
 
-/* const dogMocks = [
-    {
-        request: {
-            query: GET_DOG_QUERY,
-            variables: { name: 'Buck' },
-        },
-        result: {
-            data: { dog: { id: 1, name: 'Buck', breed: 'poodle' } },
-        },
-    },
-    {
-        request: {
-            query: DELETE_DOG_MUTATION,
-            variables: { name: 'Buck' },
-        },
-        result: {
-            data: { dog: { id: 1, name: 'Buck', breed: 'poodle' } },
-        },
-    }
-]; */
-
-/* const REGISTER_USER = gql`
-  mutation register(
-    $username: String!
-    $email: String!
-    $password: String!
-    $confirmPassword: String!
-  ){
-    register(
-      registerInput: {
-        username: $username
-        email: $email
-        password: $password
-        confirmPassword: $confirmPassword
-      }
-    ){
-      id email username createdAt token
-    }
-  }
-` */
-
-
-
 describe('Test form renders', function(){
     const mocks = [
         {
@@ -174,48 +131,6 @@ describe('Test form inputs', function(){
         expect(confirmPasswordInputElement.value).toBe('123456');
     });
 });
-
-/* const mocks = [
-    {
-        request: {
-            query: REGISTER_USER,
-            variables: {
-                register: {
-                    username: '',
-                    email: '',
-                    password: '',
-                    confirmPassword: '',
-                }
-            },
-        },
-        result: {
-            errors: {
-                username: [new GraphQLError("Le nom d'utilisateur ne doit pas être vide")],
-            }
-        }
-    },
-]; */
-
-/* const dogMocks = [
-    {
-        request: {
-            query: GET_DOG_QUERY,
-            variables: { name: 'Buck' },
-        },
-        result: {
-            data: { dog: { id: 1, name: 'Buck', breed: 'poodle' } },
-        },
-    },
-    {
-        request: {
-            query: DELETE_DOG_MUTATION,
-            variables: { name: 'Buck', breed: 'poodle' },
-        },
-        result: {
-            errors: [new GraphQLError('GraphQL error !')],
-        }
-    }
-]; */
 
 //TODO: voir si on peut faire ça directement avec les resolvers ou au moins avec des données en entrée qui sont cohérentes avec l'erreur
 describe('Test errors during form submission', function(){

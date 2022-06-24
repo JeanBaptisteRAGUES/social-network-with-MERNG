@@ -36,7 +36,7 @@ const MenuBar = () => {
                 to="/conversations"
             />
             <Menu.Item
-                name='logout'
+                name='déconnexion'
                 onClick={disconnect}
             />
         </Menu.Menu>
@@ -45,23 +45,23 @@ const MenuBar = () => {
     <Menu data-testid='menubar-unlogged' pointing secondary size='massive' color='teal'>
         <Menu.Item
             data-cy='home-link'
-            name='home'
-            active={activeItem === 'home'}
+            name='accueil'
+            active={activeItem === 'accueil'}
             onClick={handleItemClick}
             as={Link}
             to="/"
         />
         <Menu.Menu position='right'>
             <Menu.Item
-                name='login'
-                active={activeItem === 'login'}
+                name='connexion'
+                active={activeItem === 'connexion'}
                 onClick={handleItemClick}
                 as={Link}
                 to="/login"
             />
             <Menu.Item
-                name='register'
-                active={activeItem === 'register'}
+                name='inscription'
+                active={activeItem === 'inscription'}
                 onClick={handleItemClick}
                 as={Link}
                 to="/register"

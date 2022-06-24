@@ -12,51 +12,51 @@ describe('login/logout/errors', () => {
     beforeEach(() => {
         cy.visit('/');
         cy.findByRole('link', {
-            name: /login/i
+            name: /connexion/i
         }).click();
     });
 
     it('user can connect to his account and logout', () => {
-        cy.findByPlaceholderText(/username\.\./i).type(USERNAME);
-        cy.findByPlaceholderText(/password\.\./i).type(PASSWORD);
+        cy.findByPlaceholderText(/pseudo\.\./i).type(USERNAME);
+        cy.findByPlaceholderText(/mot de passe\.\./i).type(PASSWORD);
         cy.findByRole('button', {
-            name: /login/i
+            name: /connexion/i
         }).click();
         cy.get('[data-cy=username-link]');
-        cy.findByText(/logout/i).click();
+        cy.findByText(/deconnexion/i).click();
         cy.get('[data-cy=home-link]');
     });
 
     it('shows an error message if user enters empty username', () => {
-        cy.findByPlaceholderText(/password\.\./i).type(PASSWORD);
+        cy.findByPlaceholderText(/mot de passe\.\./i).type(PASSWORD);
         cy.findByRole('button', {
-            name: /login/i
+            name: /connexion/i
         }).click();
         cy.contains(EMPTY_USERNAME_ERROR_MSG);
     });
 
     it('shows an error message if user enters empty password', () => {
-        cy.findByPlaceholderText(/username\.\./i).type(USERNAME);
+        cy.findByPlaceholderText(/pseudo\.\./i).type(USERNAME);
         cy.findByRole('button', {
-            name: /login/i
+            name: /connexion/i
         }).click();
         cy.contains(EMPTY_PASSWORD_ERROR_MSG);
     });
 
     it('shows an error message if user enters invalid username', () => {
-        cy.findByPlaceholderText(/username\.\./i).type(BAD_USERNAME);
-        cy.findByPlaceholderText(/password\.\./i).type(PASSWORD);
+        cy.findByPlaceholderText(/pseudo\.\./i).type(BAD_USERNAME);
+        cy.findByPlaceholderText(/mot de passe\.\./i).type(PASSWORD);
         cy.findByRole('button', {
-            name: /login/i
+            name: /connexion/i
         }).click();
         cy.contains(UNKNOW_USERNAME_ERROR_MSG);
     });
 
     it('shows an error message if user enters invalid password', () => {
-        cy.findByPlaceholderText(/username\.\./i).type(USERNAME);
-        cy.findByPlaceholderText(/password\.\./i).type(BAD_PASSWORD);
+        cy.findByPlaceholderText(/pseudo\.\./i).type(USERNAME);
+        cy.findByPlaceholderText(/mot de passe\.\./i).type(BAD_PASSWORD);
         cy.findByRole('button', {
-            name: /login/i
+            name: /connexion/i
         }).click();
         cy.contains(BAD_CREDENTIALS_ERROR_MSG);
     });

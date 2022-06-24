@@ -2,37 +2,23 @@ import "@testing-library/cypress/add-commands"
 
 Cypress.Commands.add('login', (username, password) => {
     cy.visit('/login');
-    cy.findByPlaceholderText(/username\.\./i).type(username);
-    cy.findByPlaceholderText(/password\.\./i).type(password);
+    cy.findByPlaceholderText(/pseudo\.\./i).type(username);
+    cy.findByPlaceholderText(/mot de passe\.\./i).type(password);
     cy.findByRole('button', {
-        name: /login/i
+        name: /connexion/i
     }).click();
 });
 
 Cypress.Commands.add('loginFromHome', (username, password) => {
     cy.findByRole('link', {
-        name: /login/i
+        name: /connexion/i
     }).click();
-    cy.findByPlaceholderText(/username\.\./i).type(username);
-    cy.findByPlaceholderText(/password\.\./i).type(password);
+    cy.findByPlaceholderText(/pseudo\.\./i).type(username);
+    cy.findByPlaceholderText(/mot de passe\.\./i).type(password);
     cy.findByRole('button', {
-        name: /login/i
+        name: /connexion/i
     }).click();
 });
-
-/* const LOGIN_USER = gql`
-  mutation login(
-    $username: String!
-    $password: String!
-  ){
-    login(
-      username: $username
-      password: $password
-    ){
-      id email username createdAt token
-    }
-  }
-` */
 
 const LOGIN_USER = `
   mutation {
@@ -53,21 +39,6 @@ Cypress.Commands.add('loginWithRequest', (username, password) => {
         cy.visit('/');
     })
 });
-
-/* Cypress.Commands.add('loginWithRequest', (username, password) => {
-    cy.request({
-        method: 'POST',
-        url: "http://localhost:5000/graphql",
-        body: {
-            username: username,
-            email: `${username}@test.com`,
-            password: password
-        }
-    })
-    .then(res => {
-        window.localStorage.setItem('jwtToken', response.body.jwt);
-    })
-}); */
 
 // ***********************************************
 // This example commands.js shows you how to
