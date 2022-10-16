@@ -20,7 +20,7 @@ Vous pouvez aussi tester directement l'application en utilisant les deux utilisa
 ### Création d'un post :
 Une fois connecté, depuis la page d'accueil vous pourrez créer un poste en écrivant votre message dans le champ à cet effet en haut à gauche du site.<br/>
 Une fois votre message terminé, vous n'avez plus qu'à cliquer sur "valider" pour publier votre poste.<br/>
-### Liker / Commenter / Supprimer un poste
+### Liker / Commenter / Supprimer un post
 Un fois connecté, il vous sera possible de liker ou de commenter un poste (le vôtre ou celui d'autres utilisateurs) grace aux icones prévus à cet effet.<br/>
 Si c'est votre propre poste, vous pourrez le supprimer en cliquant sur l'icone rouge représentant une poubelle.<br/>
 ### Commencer une discution instantannée privée avec un utilisateur
