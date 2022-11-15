@@ -3,8 +3,6 @@ import { BrowserRouter as Router} from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MockedProvider } from '@apollo/client/testing';
-import renderer from 'react-test-renderer';
-import { GraphQLError } from 'graphql';
 const { UserInputError } = require('apollo-server');
 
 import Register, { REGISTER_USER} from './Register';
